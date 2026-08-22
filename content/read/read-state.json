@@ -1,10 +1,10 @@
 {
   "currentBook": 1,
   "currentBonusImage": {
-    "canonicalReleaseId": "1.05",
-    "title": "XiuQing",
-    "src": "/images/read/releases/1.5-xiuqing.png",
-    "alt": "XiuQing",
+    "canonicalReleaseId": "1.06",
+    "title": "Veric",
+    "src": "/images/read/releases/1.6-veric.png",
+    "alt": "Veric",
     "width": 1122,
     "height": 1402
   },
@@ -38,6 +38,14 @@
       "title": "Shrine to Gaia",
       "src": "/images/read/releases/1.4-shrine-to-gaia.png",
       "alt": "Shrine to Gaia",
+      "width": 1122,
+      "height": 1402
+    },
+    {
+      "canonicalReleaseId": "1.05",
+      "title": "XiuQing",
+      "src": "/images/read/releases/1.5-xiuqing.png",
+      "alt": "XiuQing",
       "width": 1122,
       "height": 1402
     }

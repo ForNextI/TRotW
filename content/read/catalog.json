@@ -58,5 +58,15 @@
     "publishedAt": "2026-08-15",
     "contentFile": "1.5.html",
     "wordCount": 3205
+  },
+  {
+    "id": "1.6",
+    "canonicalId": "1.06",
+    "title": "You Are Kind",
+    "book": 1,
+    "unit": 6,
+    "publishedAt": "2026-08-21",
+    "contentFile": "1.6.html",
+    "wordCount": 3481
   }
 ]
