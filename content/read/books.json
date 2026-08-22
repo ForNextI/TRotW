@@ -1,0 +1,12 @@
+[
+  {
+    "book": 1,
+    "label": "Book One",
+    "title": "Incursions in the Vale",
+    "image": {
+      "src": "/images/midpoint-bridge.webp",
+      "alt": "The Wardens approach the Midpoint Bridge during a thunderstorm",
+      "caption": "The Midpoint Bridge, though the saga itself never names it."
+    }
+  }
+]

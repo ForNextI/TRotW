@@ -1,0 +1,62 @@
+[
+  {
+    "id": "1.0",
+    "canonicalId": "1.00",
+    "title": "The Wrong Mark",
+    "book": 1,
+    "unit": 0,
+    "publishedAt": "2026-07-24",
+    "contentFile": "1.0.html",
+    "wordCount": 4039
+  },
+  {
+    "id": "1.1",
+    "canonicalId": "1.01",
+    "title": "Four at the Portal",
+    "book": 1,
+    "unit": 1,
+    "publishedAt": "2026-07-24",
+    "contentFile": "1.1.html",
+    "wordCount": 2604
+  },
+  {
+    "id": "1.2",
+    "canonicalId": "1.02",
+    "title": "The Heartstone",
+    "book": 1,
+    "unit": 2,
+    "publishedAt": "2026-07-28",
+    "contentFile": "1.2.html",
+    "wordCount": 3246
+  },
+  {
+    "id": "1.3",
+    "canonicalId": "1.03",
+    "title": "The Path Was Already There",
+    "book": 1,
+    "unit": 3,
+    "publishedAt": "2026-08-01",
+    "contentFile": "1.3.html",
+    "wordCount": 3262
+  },
+  {
+    "id": "1.4",
+    "canonicalId": "1.04",
+    "title": "The Four in Flat Four",
+    "book": 1,
+    "unit": 4,
+    "publishedAt": "2026-08-09",
+    "contentFile": "1.4.html",
+    "wordCount": 3076
+  },
+  {
+    "id": "1.5",
+    "canonicalId": "1.05",
+    "title": "The Name They Chose",
+    "book": 1,
+    "unit": 5,
+    "publishedAt": "2026-08-15",
+    "contentFile": "1.5.html",
+    "wordCount": 3205
+  }
+]

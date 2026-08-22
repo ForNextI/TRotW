@@ -1,0 +1,45 @@
+{
+  "currentBook": 1,
+  "currentBonusImage": {
+    "canonicalReleaseId": "1.05",
+    "title": "XiuQing",
+    "src": "/images/read/releases/1.5-xiuqing.png",
+    "alt": "XiuQing",
+    "width": 1122,
+    "height": 1402
+  },
+  "bonusGallery": [
+    {
+      "canonicalReleaseId": "1.01",
+      "title": "The Four",
+      "src": "/images/the-four.png",
+      "alt": "The four adventurers gathered around a table beside the vast well of the Yawning Portal",
+      "width": 1535,
+      "height": 1024
+    },
+    {
+      "canonicalReleaseId": "1.02",
+      "title": "Three Villages and Environs",
+      "src": "/images/read/releases/1.2-three-villages-and-environs.png",
+      "alt": "Three Villages and Environs",
+      "width": 1254,
+      "height": 1254
+    },
+    {
+      "canonicalReleaseId": "1.03",
+      "title": "Tiny",
+      "src": "/images/read/releases/1.3-tiny.png",
+      "alt": "Tiny",
+      "width": 1122,
+      "height": 1402
+    },
+    {
+      "canonicalReleaseId": "1.04",
+      "title": "Shrine to Gaia",
+      "src": "/images/read/releases/1.4-shrine-to-gaia.png",
+      "alt": "Shrine to Gaia",
+      "width": 1122,
+      "height": 1402
+    }
+  ]
+}

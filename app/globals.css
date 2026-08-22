@@ -1,0 +1,601 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-display: "Trebuchet MS", ui-sans-serif, system-ui, sans-serif;
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+  color-scheme: dark;
+  --background: oklch(0.17 0.02 260);
+  --foreground: oklch(0.97 0.008 250);
+  --card: oklch(0.22 0.025 262);
+  --card-foreground: oklch(0.97 0.008 250);
+  --popover: oklch(0.22 0.025 262);
+  --popover-foreground: oklch(0.97 0.008 250);
+  --primary: oklch(0.78 0.15 195);
+  --primary-foreground: oklch(0.17 0.02 260);
+  --secondary: oklch(0.28 0.03 262);
+  --secondary-foreground: oklch(0.97 0.008 250);
+  --muted: oklch(0.26 0.025 262);
+  --muted-foreground: oklch(0.7 0.02 258);
+  --accent: oklch(0.78 0.17 55);
+  --accent-foreground: oklch(0.17 0.02 260);
+  --destructive: oklch(0.62 0.24 20);
+  --border: oklch(0.32 0.03 262);
+  --input: oklch(0.3 0.03 262);
+  --ring: oklch(0.78 0.15 195);
+  --chart-1: oklch(0.78 0.15 195);
+  --chart-2: oklch(0.78 0.17 55);
+  --chart-3: oklch(0.65 0.2 340);
+  --chart-4: oklch(0.7 0.18 145);
+  --chart-5: oklch(0.7 0.16 260);
+  --radius: 0.75rem;
+  --sidebar: oklch(0.2 0.024 262);
+  --sidebar-foreground: oklch(0.97 0.008 250);
+  --sidebar-primary: oklch(0.78 0.15 195);
+  --sidebar-primary-foreground: oklch(0.17 0.02 260);
+  --sidebar-accent: oklch(0.28 0.03 262);
+  --sidebar-accent-foreground: oklch(0.97 0.008 250);
+  --sidebar-border: oklch(0.32 0.03 262);
+  --sidebar-ring: oklch(0.78 0.15 195);
+}
+
+.dark {
+  color-scheme: dark;
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    color-scheme: dark;
+    --background: oklch(0.145 0 0);
+    --foreground: oklch(0.985 0 0);
+    --card: oklch(0.205 0 0);
+    --card-foreground: oklch(0.985 0 0);
+    --popover: oklch(0.205 0 0);
+    --popover-foreground: oklch(0.985 0 0);
+    --primary: oklch(0.922 0 0);
+    --primary-foreground: oklch(0.205 0 0);
+    --secondary: oklch(0.269 0 0);
+    --secondary-foreground: oklch(0.985 0 0);
+    --muted: oklch(0.269 0 0);
+    --muted-foreground: oklch(0.708 0 0);
+    --accent: oklch(0.269 0 0);
+    --accent-foreground: oklch(0.985 0 0);
+    --destructive: oklch(0.704 0.191 22.216);
+    --border: oklch(1 0 0 / 10%);
+    --input: oklch(1 0 0 / 15%);
+    --ring: oklch(0.556 0 0);
+    --chart-1: oklch(0.87 0 0);
+    --chart-2: oklch(0.556 0 0);
+    --chart-3: oklch(0.439 0 0);
+    --chart-4: oklch(0.371 0 0);
+    --chart-5: oklch(0.269 0 0);
+    --sidebar: oklch(0.205 0 0);
+    --sidebar-foreground: oklch(0.985 0 0);
+    --sidebar-primary: oklch(0.488 0.243 264.376);
+    --sidebar-primary-foreground: oklch(0.985 0 0);
+    --sidebar-accent: oklch(0.269 0 0);
+    --sidebar-accent-foreground: oklch(0.985 0 0);
+    --sidebar-border: oklch(1 0 0 / 10%);
+    --sidebar-ring: oklch(0.556 0 0);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+.font-blackletter {
+  font-family: "Old English Text MT", "Lucida Blackletter", "UnifrakturCook", "UnifrakturMaguntia", Georgia, serif;
+  letter-spacing: 0.015em;
+}
+
+.mistinarperadnacles-flight {
+  position: fixed;
+  z-index: 120;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.mistinarperadnacles-dragon {
+  position: absolute;
+  width: clamp(130px, 15vw, 230px);
+  aspect-ratio: 1.2;
+  transform-origin: center;
+  will-change: transform, opacity;
+  animation-duration: 10s;
+  animation-timing-function: cubic-bezier(0.2, 0.72, 0.22, 1);
+  animation-fill-mode: both;
+}
+
+.mistinarperadnacles-dragon img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  user-select: none;
+}
+
+.mistinarperadnacles-flight-pose {
+  opacity: 1;
+  animation: mistinarperadnacles-flight-pose 10s linear both;
+}
+
+.mistinarperadnacles-legacy-pose {
+  opacity: 1;
+  animation: none;
+}
+
+.mistinarperadnacles-dragon.mistinarperadnacles-legacy {
+  width: clamp(72px, 7vw, 108px);
+}
+
+.mistinarperadnacles-hover-pose {
+  opacity: 0;
+  animation: mistinarperadnacles-hover-pose 10s linear both;
+}
+
+.mistinarperadnacles-path-left-right { animation-name: mistinarperadnacles-left-right; }
+.mistinarperadnacles-path-right-left { animation-name: mistinarperadnacles-right-left; }
+.mistinarperadnacles-path-top-bottom { animation-name: mistinarperadnacles-top-bottom; }
+.mistinarperadnacles-path-bottom-top { animation-name: mistinarperadnacles-bottom-top; }
+
+@keyframes mistinarperadnacles-flight-pose {
+  0%, 12%, 31%, 48%, 68%, 86%, 100% { opacity: 1; }
+  16%, 27%, 72%, 82% { opacity: 0; }
+}
+
+@keyframes mistinarperadnacles-hover-pose {
+  0%, 12%, 31%, 48%, 68%, 86%, 100% { opacity: 0; }
+  16%, 27%, 72%, 82% { opacity: 1; }
+}
+
+@keyframes mistinarperadnacles-left-right {
+  0% { transform: translate3d(-130%, 18vh, 0) rotate(-8deg) scale(0.8); opacity: 0; }
+  8% { opacity: 1; }
+  15% { transform: translate3d(8vw, 22vh, 0) rotate(2deg) scale(0.96); opacity: 1; }
+  28% { transform: translate3d(8vw, 22vh, 0) rotate(2deg) scale(0.96); opacity: 1; }
+  47% { transform: translate3d(48vw, 46vh, 0) rotate(6deg) scale(0.62); opacity: 0.12; }
+  67% { transform: translate3d(73vw, 58vh, 0) rotate(-4deg) scale(0.92); opacity: 1; }
+  82% { transform: translate3d(73vw, 58vh, 0) rotate(-4deg) scale(0.92); opacity: 1; }
+  100% { transform: translate3d(calc(100vw + 140%), 42vh, 0) rotate(12deg) scale(0.72); opacity: 0; }
+}
+
+@keyframes mistinarperadnacles-right-left {
+  0% { transform: translate3d(calc(100vw + 130%), 20vh, 0) rotate(8deg) scale(0.8); opacity: 0; }
+  8% { opacity: 1; }
+  15% { transform: translate3d(76vw, 24vh, 0) rotate(-2deg) scale(0.96); opacity: 1; }
+  28% { transform: translate3d(76vw, 24vh, 0) rotate(-2deg) scale(0.96); opacity: 1; }
+  47% { transform: translate3d(42vw, 48vh, 0) rotate(-6deg) scale(0.62); opacity: 0.12; }
+  67% { transform: translate3d(7vw, 60vh, 0) rotate(4deg) scale(0.92); opacity: 1; }
+  82% { transform: translate3d(7vw, 60vh, 0) rotate(4deg) scale(0.92); opacity: 1; }
+  100% { transform: translate3d(-140%, 43vh, 0) rotate(-12deg) scale(0.72); opacity: 0; }
+}
+
+@keyframes mistinarperadnacles-top-bottom {
+  0% { transform: translate3d(12vw, -140%, 0) rotate(12deg) scale(0.76); opacity: 0; }
+  8% { opacity: 1; }
+  15% { transform: translate3d(18vw, 6vh, 0) rotate(4deg) scale(0.94); opacity: 1; }
+  28% { transform: translate3d(18vw, 6vh, 0) rotate(4deg) scale(0.94); opacity: 1; }
+  47% { transform: translate3d(52vw, 43vh, 0) rotate(-8deg) scale(0.62); opacity: 0.12; }
+  67% { transform: translate3d(70vw, 69vh, 0) rotate(2deg) scale(0.92); opacity: 1; }
+  82% { transform: translate3d(70vw, 69vh, 0) rotate(2deg) scale(0.92); opacity: 1; }
+  100% { transform: translate3d(76vw, calc(100vh + 140%), 0) rotate(-10deg) scale(0.72); opacity: 0; }
+}
+
+@keyframes mistinarperadnacles-bottom-top {
+  0% { transform: translate3d(73vw, calc(100vh + 140%), 0) rotate(-12deg) scale(0.76); opacity: 0; }
+  8% { opacity: 1; }
+  15% { transform: translate3d(69vw, 68vh, 0) rotate(-4deg) scale(0.94); opacity: 1; }
+  28% { transform: translate3d(69vw, 68vh, 0) rotate(-4deg) scale(0.94); opacity: 1; }
+  47% { transform: translate3d(45vw, 42vh, 0) rotate(8deg) scale(0.62); opacity: 0.12; }
+  67% { transform: translate3d(15vw, 8vh, 0) rotate(-2deg) scale(0.92); opacity: 1; }
+  82% { transform: translate3d(15vw, 8vh, 0) rotate(-2deg) scale(0.92); opacity: 1; }
+  100% { transform: translate3d(8vw, -140%, 0) rotate(10deg) scale(0.72); opacity: 0; }
+}
+
+.mistinarperadnacles-reduced {
+  left: 4vw;
+  top: 18vh;
+  animation: none !important;
+  opacity: 0.85;
+}
+
+.mistinarperadnacles-reduced .mistinarperadnacles-flight-pose,
+.mistinarperadnacles-reduced .mistinarperadnacles-hover-pose,
+.mistinarperadnacles-reduced .mistinarperadnacles-legacy-pose {
+  animation: none !important;
+}
+
+.mistinarperadnacles-reduced .mistinarperadnacles-flight-pose,
+.mistinarperadnacles-reduced .mistinarperadnacles-legacy-pose { opacity: 1; }
+.mistinarperadnacles-reduced .mistinarperadnacles-hover-pose { opacity: 0; }
+
+@media (max-width: 640px) {
+  .mistinarperadnacles-dragon { width: 126px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:not([data-motion-preference="full"]) .mistinarperadnacles-dragon {
+    left: 4vw;
+    top: 18vh;
+    animation: none !important;
+    opacity: 0.85;
+  }
+  html:not([data-motion-preference="full"]) .mistinarperadnacles-dragon img { animation: none !important; }
+  html:not([data-motion-preference="full"]) .mistinarperadnacles-hover-pose { opacity: 0; }
+}
+
+/* Published prose remains selectable for accessibility, browser reading tools,
+   translation, dictionary lookup, and ordinary reader workflows. */
+.wardens-reading-prose,
+[data-protected-prose] {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+.wardens-reading-prose .opening-paragraph::first-letter {
+  float: left;
+  margin: 0.15em 0.16em 0 0;
+  font-family: "Old English Text MT", "Lucida Blackletter", Georgia, serif;
+  font-size: 4.5rem;
+  line-height: 0.72;
+  color: #7c3f1e;
+}
+
+.wardens-reading-prose p + p {
+  margin-top: 1.65rem;
+}
+
+.wardens-reading-prose h1,
+.wardens-reading-prose h2,
+.wardens-reading-prose h3 {
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  font-family: var(--font-display), Georgia, serif;
+  line-height: 1.15;
+  color: #4c2d15;
+}
+
+.wardens-reading-prose h1 { font-size: 2.2rem; }
+.wardens-reading-prose h2 { font-size: 1.8rem; }
+.wardens-reading-prose h3 { font-size: 1.45rem; }
+
+.wardens-reading-prose em { font-style: italic; }
+.wardens-reading-prose strong { font-weight: 700; }
+
+
+
+/* Manual reduced-motion preference. */
+html[data-reduced-motion="true"] {
+  scroll-behavior: auto;
+}
+
+html[data-reduced-motion="true"] *,
+html[data-reduced-motion="true"] *::before,
+html[data-reduced-motion="true"] *::after {
+  scroll-behavior: auto !important;
+  transition-duration: 0.01ms !important;
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+}
+
+/* Honor the device preference before React hydrates unless full motion is explicitly selected. */
+@media (prefers-reduced-motion: reduce) {
+  html:not([data-motion-preference="full"]) {
+    scroll-behavior: auto;
+  }
+
+  html:not([data-motion-preference="full"]) *,
+  html:not([data-motion-preference="full"]) *::before,
+  html:not([data-motion-preference="full"]) *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+.wardens-accordion > summary::-webkit-details-marker {
+  display: none;
+}
+
+.wardens-accordion > summary {
+  list-style: none;
+}
+
+.wardens-accordion[open] > summary .wardens-accordion-caret {
+  transform: rotate(90deg);
+}
+
+
+
+/* Build 3.8.5: endpoint pages keep the flat interface while entering a warm,
+   illustrated medieval room. The complete 9:16 scene is width-fitted,
+   anchored to the page bottom, and allowed to tile upward on unusually long
+   or narrow pages. */
+.medieval-page {
+  /* Interface surfaces stay light parchment. The illustrated page itself
+     keeps the dark fallback below, so semantic bg-background controls never
+     become dark-brown-on-dark-brown. */
+  --background: #f0ddb2;
+  --foreground: #2d2116;
+  --card: rgb(239 222 184 / 0.95);
+  --card-foreground: #2d2116;
+  --popover: #efdeb8;
+  --popover-foreground: #2d2116;
+  --primary: #815426;
+  --primary-foreground: #fff5df;
+  --secondary: #d7bf8c;
+  --secondary-foreground: #2d2116;
+  --muted: #dfcca2;
+  --muted-foreground: #6d5436;
+  --accent: #b67e2b;
+  --accent-foreground: #24170c;
+  --border: #8c6a3c;
+  --input: #9b713d;
+  --ring: #c9933d;
+  min-height: 100vh;
+  width: 100%;
+  color-scheme: light;
+  background-color: #3a2a1d;
+  background-origin: border-box;
+  background-clip: border-box;
+  background-position: center bottom;
+  background-repeat: repeat-y;
+  background-size: 100% auto;
+  background-attachment: scroll;
+}
+
+.medieval-page--read { background-image: url('/images/medieval/read.webp'); }
+
+.medieval-page > header,
+.medieval-page > footer {
+  background-color: rgb(239 222 184 / 0.94);
+  backdrop-filter: blur(8px);
+}
+
+.medieval-page-panel {
+  border: 1px solid rgb(111 77 38 / 0.82);
+  background: rgb(239 222 184 / 0.94);
+  box-shadow:
+    0 24px 60px rgb(24 14 7 / 0.5),
+    0 0 0 3px rgb(64 39 19 / 0.38),
+    inset 0 0 0 1px rgb(255 246 221 / 0.62);
+}
+
+.medieval-page .bg-card,
+.medieval-page .bg-background,
+.medieval-page .bg-secondary,
+.medieval-page [class*='bg-card/'],
+.medieval-page [class*='bg-background/'] {
+  backdrop-filter: blur(5px);
+}
+
+/* Native and semantic form controls need an explicit light palette because
+   browsers do not reliably infer option-menu colors from translucent panels. */
+.medieval-page input,
+.medieval-page textarea,
+.medieval-page select,
+.medieval-page option {
+  color: #2d2116;
+  background-color: #f0ddb2;
+}
+
+.medieval-page input::placeholder,
+.medieval-page textarea::placeholder {
+  color: #795f42;
+  opacity: 1;
+}
+
+.medieval-page select:disabled,
+.medieval-page input:disabled,
+.medieval-page textarea:disabled,
+.medieval-page button:disabled {
+  opacity: 0.58;
+}
+
+.medieval-page .motion-settings-control {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.medieval-page .motion-settings-select {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  border-color: #8c6a3c;
+  background-color: #f6e7c5;
+  color: #2d2116;
+}
+
+.medieval-page .motion-settings-control.motion-settings-control--compact {
+  width: auto;
+  max-width: 100%;
+  flex: 0 1 auto;
+}
+
+.medieval-page .motion-settings-select.motion-settings-select--compact {
+  width: auto;
+  min-width: 10rem;
+  max-width: 12rem;
+}
+
+/* Build 3.9.0: restrained medieval scrollbars on destination pages. */
+html:has(.medieval-page),
+body:has(.medieval-page),
+.medieval-page,
+.medieval-page * {
+  scrollbar-color: #8b8780 #35261b;
+  scrollbar-width: thin;
+}
+
+html:has(.medieval-page)::-webkit-scrollbar,
+body:has(.medieval-page)::-webkit-scrollbar,
+.medieval-page::-webkit-scrollbar,
+.medieval-page *::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+html:has(.medieval-page)::-webkit-scrollbar-track,
+body:has(.medieval-page)::-webkit-scrollbar-track,
+.medieval-page::-webkit-scrollbar-track,
+.medieval-page *::-webkit-scrollbar-track {
+  background: #35261b;
+}
+
+html:has(.medieval-page)::-webkit-scrollbar-thumb,
+body:has(.medieval-page)::-webkit-scrollbar-thumb,
+.medieval-page::-webkit-scrollbar-thumb,
+.medieval-page *::-webkit-scrollbar-thumb {
+  min-height: 32px;
+  border: 3px solid #35261b;
+  border-radius: 999px;
+  background: #8b8780;
+}
+
+html:has(.medieval-page)::-webkit-scrollbar-thumb:hover,
+body:has(.medieval-page)::-webkit-scrollbar-thumb:hover,
+.medieval-page::-webkit-scrollbar-thumb:hover,
+.medieval-page *::-webkit-scrollbar-thumb:hover {
+  background: #aaa59d;
+}
+
+/* Casual image-copy deterrence. This cannot prevent screenshots or developer-tool access. */
+img,
+[data-protected-image] {
+  -webkit-touch-callout: none;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+/* Build 3.15.6 accessibility foundation */
+.wardens-skip-link {
+  position: fixed;
+  left: 1rem;
+  top: 1rem;
+  z-index: 1000;
+  max-width: calc(100vw - 2rem);
+  transform: translateY(-180%);
+  border-radius: 0.75rem;
+  background: var(--primary);
+  color: var(--primary-foreground);
+  padding: 0.75rem 1rem;
+  font-weight: 800;
+  box-shadow: 0 0.75rem 2rem rgb(0 0 0 / 0.45);
+  transition: transform 120ms ease;
+}
+
+.wardens-skip-link:focus {
+  transform: translateY(0);
+}
+
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 3px solid var(--ring);
+  outline-offset: 3px;
+}
+
+:where(p, li, dd, dt, blockquote, figcaption, label, button, a) {
+  overflow-wrap: anywhere;
+}
+
+[aria-disabled='true'],
+:disabled {
+  cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:not([data-motion-preference="full"]) *,
+  html:not([data-motion-preference="full"]) *::before,
+  html:not([data-motion-preference="full"]) *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
