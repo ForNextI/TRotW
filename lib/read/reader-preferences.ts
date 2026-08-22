@@ -13,7 +13,7 @@ export const READ_ALOUD_ENABLED_KEY = 'trotw:read-aloud-enabled:v1'
 export const READ_ALOUD_VOICE_KEY = 'trotw:read-aloud-voice:v1'
 
 export function normalizeReadAloudVoice(value: unknown): ReadAloudVoice {
-  return value === 'female' ? 'female' : 'male'
+  return value === 'male' ? 'male' : 'female'
 }
 
 export function parseReadBookmark(value: unknown, validReleaseIds?: ReadonlySet<string>): ReadBookmarkFile | null {

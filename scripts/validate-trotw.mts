@@ -5,7 +5,7 @@ const ROOT = process.cwd()
 const FAN_NOTICE = 'The Reading of the Wardens is unofficial Fan Content permitted under the Fan Content Policy. Not approved/endorsed by Wizards. Portions of the materials used are property of Wizards of the Coast. ©Wizards of the Coast LLC.'
 
 function fail(message: string): never {
-  console.error(`\nTROTW 1.2.0 validation failed: ${message}`)
+  console.error(`\nTROTW 1.2.1 validation failed: ${message}`)
   process.exit(1)
 }
 
@@ -29,7 +29,7 @@ function walk(directory: string): string[] {
 }
 
 const packageJson = JSON.parse(text('package.json')) as { version?: string; scripts?: Record<string, string> }
-if (packageJson.version !== '1.2.0') fail('package.json is not version 1.2.0')
+if (packageJson.version !== '1.2.1') fail('package.json is not version 1.2.1')
 if (!packageJson.scripts?.['validate:version'] || !packageJson.scripts?.['validate:release']) fail('release validation scripts are missing')
 
 const layout = text('app/layout.tsx')
@@ -140,6 +140,13 @@ const narrationCache = text('lib/read/narration-cache.ts')
 for (const expected of ['createHash', 'read-aloud/v1', "access: 'public'", 'addRandomSuffix: false']) {
   if (!narrationCache.includes(expected)) fail(`shared narration cache is missing ${expected}`)
 }
+const readerPreferences = text('lib/read/reader-preferences.ts')
+const readAloud = text('components/read/read-aloud.tsx')
+if (!readerPreferences.includes("return value === 'male' ? 'male' : 'female'")) fail('Read Aloud normalization no longer defaults to female')
+if (!readAloud.includes("useState<ReadAloudVoice>('female')")) fail('Read Aloud state no longer initializes to female')
+if (!readAloud.includes('Female voice <span className="font-normal text-[#604a2c]">(default)</span>')) fail('Read Aloud UI no longer labels the female voice as default')
+if (readAloud.includes('Male voice <span className="font-normal text-[#604a2c]">(default)</span>')) fail('Read Aloud UI still labels the male voice as default')
+
 const speechRoute = text('app/api/read/speech/route.ts')
 for (const expected of ['findCachedNarration', 'storeNarration', 'X-TROTW-Narration-Cache']) {
   if (!speechRoute.includes(expected)) fail(`Read Aloud route is missing shared-cache behavior: ${expected}`)
@@ -166,5 +173,5 @@ for (const pattern of secretPatterns) {
   if (pattern.test(repositoryText)) fail('a credential-shaped secret appears to be committed in source')
 }
 
-console.log('TROTW 1.2.0 release validation passed.')
+console.log('TROTW 1.2.1 release validation passed.')
 console.log(`Validated ${catalog.length} published release units and ${imagePaths.length} referenced catalog/state images.`)

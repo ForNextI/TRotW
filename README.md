@@ -1,6 +1,6 @@
 # The Reading of the Wardens
 
-**TROTW 1.2.0** is the standalone home of *The Wardens of Waterdeep* and the Read experience originally published as part of WardensPC.
+**TROTW 1.2.1** is the standalone home of *The Wardens of Waterdeep* and the Read experience originally published as part of WardensPC.
 
 - Production domain: `https://thereadingofthewardens.com`
 - GitHub repository: `ForNextI/TrotW`
@@ -64,7 +64,7 @@ For the Reader Poll:
 - `TROTW_UPSTASH_REDIS_REST_URL`
 - `TROTW_UPSTASH_REDIS_REST_TOKEN`
 
-TROTW 1.2.0 still recognizes the generic `OPENAI_*` and standard `UPSTASH_REDIS_*` names as migration fallbacks, but new Vercel configuration should use the TROTW-prefixed names so this site remains visibly independent from WardensPC.
+TROTW 1.2.1 still recognizes the generic `OPENAI_*` and standard `UPSTASH_REDIS_*` names as migration fallbacks, but new Vercel configuration should use the TROTW-prefixed names so this site remains visibly independent from WardensPC.
 
 For rights-holder contact display:
 
@@ -73,6 +73,10 @@ For rights-holder contact display:
 See `.env.example` for the complete template.
 
 
+
+## TROTW 1.2.1 Read Aloud default voice
+
+The female (`marin`) reader is now the default for new or unset browser preferences after live listening showed it to be the more reliable general narrator. A reader who has already chosen and saved the male voice keeps that preference; the change does not overwrite an explicit stored choice or imported bookmark preference.
 
 ## TROTW 1.2 shared Read Aloud narration library
 
@@ -171,13 +175,13 @@ git diff --check
 git status --short
 ```
 
-For TROTW 1.2.0 and later updates:
+For TROTW 1.2.1 and later updates:
 
 ```bash
 git add -A
 git diff --cached --check
 git status --short
-git commit -m "TROTW 1.2.0"
+git commit -m "Build 1.2.1"
 git push
 ```
 

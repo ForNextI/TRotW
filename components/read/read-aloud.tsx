@@ -70,7 +70,7 @@ export function ReadAloudProvider({ catalogIds, children }: { catalogIds: string
   const router = useRouter()
   const validReleaseIds = useMemo(() => new Set(catalogIds), [catalogIds])
   const [enabled, setEnabled] = useState(false)
-  const [voice, setVoice] = useState<ReadAloudVoice>('male')
+  const [voice, setVoice] = useState<ReadAloudVoice>('female')
   const [status, setStatus] = useState<ReadAloudStatus>('idle')
   const [currentReleaseId, setCurrentReleaseId] = useState<string | null>(null)
   const [bookmarkReleaseId, setBookmarkReleaseId] = useState<string | null>(null)
@@ -90,7 +90,7 @@ export function ReadAloudProvider({ catalogIds, children }: { catalogIds: string
   const abortControllersRef = useRef(new Set<AbortController>())
   const prefetchedRef = useRef(new Map<number, Promise<Blob>>())
   const enabledRef = useRef(false)
-  const voiceRef = useRef<ReadAloudVoice>('male')
+  const voiceRef = useRef<ReadAloudVoice>('female')
   const statusRef = useRef<ReadAloudStatus>('idle')
   const headingRef = useRef<HTMLHeadingElement | null>(null)
   const restoreInputRef = useRef<HTMLInputElement | null>(null)
@@ -527,11 +527,11 @@ export function ReadAloudProvider({ catalogIds, children }: { catalogIds: string
               <div className="mt-2 grid gap-3 sm:grid-cols-2">
                 <label className={`flex cursor-pointer items-start gap-3 rounded-xl border p-4 ${voice === 'male' ? 'border-[#7b5b2f] bg-white/45' : 'border-[#7b5b2f]/30 bg-white/15'}`}>
                   <input type="radio" name="read-aloud-voice" value="male" checked={voice === 'male'} onChange={() => chooseVoice('male')} className="mt-1 size-4 accent-[#7b5b2f]" />
-                  <span><span className="block font-bold">Male voice <span className="font-normal text-[#604a2c]">(default)</span></span><span className="mt-1 block text-sm text-[#604a2c]">A clear, natural reading voice.</span></span>
+                  <span><span className="block font-bold">Male voice</span><span className="mt-1 block text-sm text-[#604a2c]">A clear, natural reading voice.</span></span>
                 </label>
                 <label className={`flex cursor-pointer items-start gap-3 rounded-xl border p-4 ${voice === 'female' ? 'border-[#7b5b2f] bg-white/45' : 'border-[#7b5b2f]/30 bg-white/15'}`}>
                   <input type="radio" name="read-aloud-voice" value="female" checked={voice === 'female'} onChange={() => chooseVoice('female')} className="mt-1 size-4 accent-[#7b5b2f]" />
-                  <span><span className="block font-bold">Female voice</span><span className="mt-1 block text-sm text-[#604a2c]">A clear, natural reading voice.</span></span>
+                  <span><span className="block font-bold">Female voice <span className="font-normal text-[#604a2c]">(default)</span></span><span className="mt-1 block text-sm text-[#604a2c]">A clear, natural reading voice.</span></span>
                 </label>
               </div>
             </fieldset>
