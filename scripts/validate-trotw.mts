@@ -5,7 +5,7 @@ const ROOT = process.cwd()
 const FAN_NOTICE = 'The Reading of the Wardens is unofficial Fan Content permitted under the Fan Content Policy. Not approved/endorsed by Wizards. Portions of the materials used are property of Wizards of the Coast. ©Wizards of the Coast LLC.'
 
 function fail(message: string): never {
-  console.error(`\nTROTW 1.0.0 validation failed: ${message}`)
+  console.error(`\nTROTW 1.1.0 validation failed: ${message}`)
   process.exit(1)
 }
 
@@ -29,7 +29,7 @@ function walk(directory: string): string[] {
 }
 
 const packageJson = JSON.parse(text('package.json')) as { version?: string; scripts?: Record<string, string> }
-if (packageJson.version !== '1.0.0') fail('package.json is not version 1.0.0')
+if (packageJson.version !== '1.1.0') fail('package.json is not version 1.1.0')
 if (!packageJson.scripts?.['validate:version'] || !packageJson.scripts?.['validate:release']) fail('release validation scripts are missing')
 
 const layout = text('app/layout.tsx')
@@ -56,6 +56,9 @@ for (const required of [
   'app/api/read/poll/results/route.ts',
   'app/api/read/publisher/route.ts',
   'app/api/owner-access/route.ts',
+  'app/api/owner/service-status/route.ts',
+  'components/owner/owner-service-status.tsx',
+  'lib/site/service-config.ts',
   'app/read/toril/[releaseId]/page.tsx',
   'components/read/read-aloud.tsx',
   'components/read/reader-poll.tsx',
@@ -126,8 +129,19 @@ for (const imagePath of imagePaths) {
 }
 
 const envExample = text('.env.example')
-for (const expected of ['TROTW_OWNER_CODE', 'TROTW_PUBLISHER_CODE', 'TROTW_NOVEL_GATE_SECRET', 'TROTW_GITHUB_TOKEN', 'OPENAI_API_KEY', 'UPSTASH_REDIS_REST_URL']) {
+for (const expected of ['TROTW_OWNER_CODE', 'TROTW_PUBLISHER_CODE', 'TROTW_NOVEL_GATE_SECRET', 'TROTW_GITHUB_TOKEN', 'TROTW_OPENAI_API_KEY', 'TROTW_OPENAI_TTS_MODEL', 'TROTW_UPSTASH_REDIS_REST_URL', 'TROTW_UPSTASH_REDIS_REST_TOKEN']) {
   if (!envExample.includes(`${expected}=`)) fail(`.env.example is missing ${expected}`)
+}
+
+const serviceConfig = text('lib/site/service-config.ts')
+for (const expected of ['TROTW_OPENAI_API_KEY', 'OPENAI_API_KEY', 'TROTW_UPSTASH_REDIS_REST_URL', 'UPSTASH_REDIS_REST_URL']) {
+  if (!serviceConfig.includes(expected)) fail(`standalone service configuration is missing ${expected}`)
+}
+const serviceStatusRoute = text('app/api/owner/service-status/route.ts')
+if (!serviceStatusRoute.includes('hasOwnerAccessSession')) fail('owner service-status route is not protected by Owner Access')
+const ownerServiceStatus = text('components/owner/owner-service-status.tsx')
+for (const expected of ['Novel age gate', 'Read Aloud', 'Reader Poll', 'Publisher']) {
+  if (!ownerServiceStatus.includes(expected)) fail(`owner service-status panel is missing ${expected}`)
 }
 
 const repositoryText = sourceFiles.map((relative) => text(relative)).join('\n')
@@ -140,5 +154,5 @@ for (const pattern of secretPatterns) {
   if (pattern.test(repositoryText)) fail('a credential-shaped secret appears to be committed in source')
 }
 
-console.log('TROTW 1.0.0 release validation passed.')
+console.log('TROTW 1.1.0 release validation passed.')
 console.log(`Validated ${catalog.length} published release units and ${imagePaths.length} referenced catalog/state images.`)

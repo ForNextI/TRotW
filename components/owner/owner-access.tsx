@@ -2,6 +2,7 @@
 
 import { KeyRound, LoaderCircle, LogOut, ShieldCheck } from 'lucide-react'
 import { FormEvent, useEffect, useState } from 'react'
+import { OwnerServiceStatus } from '@/components/owner/owner-service-status'
 
 const OWNER_ACCESS_EVENT = 'trotw-owner-access-changed'
 
@@ -78,18 +79,21 @@ export function OwnerAccess() {
 
   if (active) {
     return (
-      <section className="rounded-3xl border border-primary/40 bg-primary/10 p-6 sm:p-8">
-        <ShieldCheck className="size-9 text-primary" aria-hidden="true" />
-        <h1 className="mt-4 font-display text-3xl font-bold">Owner access is active</h1>
-        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-          This browser has a secure server-authenticated owner session for private publishing and reader-poll tools.
-        </p>
-        <button type="button" onClick={() => void signOut()} disabled={busy} className="mt-6 inline-flex min-h-11 items-center gap-2 rounded-xl border border-border px-4 py-2.5 text-sm font-bold disabled:opacity-45">
-          {busy ? <LoaderCircle className="size-4 animate-spin" aria-hidden="true" /> : <LogOut className="size-4" aria-hidden="true" />}
-          End owner access
-        </button>
-        {error && <p className="mt-4 rounded-xl border border-destructive/35 bg-destructive/10 px-4 py-3 text-sm text-destructive" role="alert">{error}</p>}
-      </section>
+      <>
+        <section className="rounded-3xl border border-primary/40 bg-primary/10 p-6 sm:p-8">
+          <ShieldCheck className="size-9 text-primary" aria-hidden="true" />
+          <h1 className="mt-4 font-display text-3xl font-bold">Owner access is active</h1>
+          <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+            This browser has a secure server-authenticated owner session for private publishing and reader-poll tools.
+          </p>
+          <button type="button" onClick={() => void signOut()} disabled={busy} className="mt-6 inline-flex min-h-11 items-center gap-2 rounded-xl border border-border px-4 py-2.5 text-sm font-bold disabled:opacity-45">
+            {busy ? <LoaderCircle className="size-4 animate-spin" aria-hidden="true" /> : <LogOut className="size-4" aria-hidden="true" />}
+            End owner access
+          </button>
+          {error && <p className="mt-4 rounded-xl border border-destructive/35 bg-destructive/10 px-4 py-3 text-sm text-destructive" role="alert">{error}</p>}
+        </section>
+        <OwnerServiceStatus />
+      </>
     )
   }
 

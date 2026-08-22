@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { isRateLimited } from '@/lib/site/rate-limit'
 import { readingPronunciationInstructions, readingSpeechText } from '@/lib/read/pronunciation-guide'
+import { readAloudServiceConfig } from '@/lib/site/service-config'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -9,7 +10,6 @@ export const maxDuration = 60
 const MAX_TEXT_LENGTH = 950
 const MAX_REQUESTS_PER_TEN_MINUTES = 180
 const WINDOW_MS = 10 * 60 * 1000
-const DEFAULT_MODEL = 'gpt-4o-mini-tts'
 type NarrationVoice = 'fable' | 'marin'
 
 function speakingInstructions(voice: NarrationVoice, text: string) {
@@ -22,8 +22,9 @@ function speakingInstructions(voice: NarrationVoice, text: string) {
 }
 
 export async function POST(request: Request) {
-  const apiKey = process.env.OPENAI_API_KEY
-  if (!apiKey) return NextResponse.json({ error: 'Read Aloud is not configured yet.' }, { status: 503 })
+  const service = readAloudServiceConfig()
+  if (!service.configured) return NextResponse.json({ error: 'Read Aloud is not configured yet.' }, { status: 503 })
+  const apiKey = service.apiKey
   if (isRateLimited(request, 'read-speech', MAX_REQUESTS_PER_TEN_MINUTES, WINDOW_MS)) {
     return NextResponse.json({ error: 'This connection has requested too much narration in a short period. Wait a few minutes and try again.' }, { status: 429 })
   }
@@ -38,7 +39,7 @@ export async function POST(request: Request) {
   if (text.length > MAX_TEXT_LENGTH) return NextResponse.json({ error: 'That narration passage is too long.' }, { status: 413 })
 
   const speechInputText = readingSpeechText(text, voice)
-  const model = process.env.OPENAI_TTS_MODEL?.trim() || DEFAULT_MODEL
+  const model = service.model
   let upstream: Response
   try {
     upstream = await fetch('https://api.openai.com/v1/audio/speech', {

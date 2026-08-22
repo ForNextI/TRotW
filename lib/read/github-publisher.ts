@@ -11,13 +11,25 @@ interface GitHubRefResponse { object?: { sha?: string } }
 interface GitHubCommitResponse { tree?: { sha?: string } }
 interface GitHubBlobResponse { sha?: string; content?: string; encoding?: string }
 
-function githubConfig(): GitHubConfig | null {
+export function readPublisherGitHubStatus() {
   const repository = process.env.TROTW_GITHUB_REPOSITORY?.trim()
     || [process.env.VERCEL_GIT_REPO_OWNER?.trim(), process.env.VERCEL_GIT_REPO_SLUG?.trim()].filter(Boolean).join('/')
   const branch = process.env.TROTW_GITHUB_BRANCH?.trim() || 'main'
+  const tokenConfigured = Boolean(process.env.TROTW_GITHUB_TOKEN?.trim())
+  const repositoryConfigured = Boolean(repository && repository.includes('/'))
+  return {
+    configured: Boolean(repositoryConfigured && tokenConfigured),
+    repository: repositoryConfigured ? repository : '',
+    branch,
+    tokenConfigured,
+  }
+}
+
+function githubConfig(): GitHubConfig | null {
+  const status = readPublisherGitHubStatus()
   const token = process.env.TROTW_GITHUB_TOKEN?.trim() || ''
-  if (!repository || !repository.includes('/') || !token) return null
-  return { repository, branch, token }
+  if (!status.configured || !status.repository || !token) return null
+  return { repository: status.repository, branch: status.branch, token }
 }
 
 async function githubRequest<T>(config: GitHubConfig, path: string, init: RequestInit = {}) {

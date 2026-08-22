@@ -1,6 +1,6 @@
 # The Reading of the Wardens
 
-**TROTW 1.0.0** is the standalone home of *The Wardens of Waterdeep* and the Read experience originally published as part of WardensPC.
+**TROTW 1.1.0** is the standalone home of *The Wardens of Waterdeep* and the Read experience originally published as part of WardensPC.
 
 - Production domain: `https://thereadingofthewardens.com`
 - GitHub repository: `ForNextI/TrotW`
@@ -55,13 +55,15 @@ For private Owner Access and Publisher:
 
 For Read Aloud:
 
-- `OPENAI_API_KEY`
-- `OPENAI_TTS_MODEL` — optional; defaults to `gpt-4o-mini-tts`
+- `TROTW_OPENAI_API_KEY`
+- `TROTW_OPENAI_TTS_MODEL` — optional; defaults to `gpt-4o-mini-tts`
 
 For the Reader Poll:
 
-- `UPSTASH_REDIS_REST_URL`
-- `UPSTASH_REDIS_REST_TOKEN`
+- `TROTW_UPSTASH_REDIS_REST_URL`
+- `TROTW_UPSTASH_REDIS_REST_TOKEN`
+
+TROTW 1.1.0 still recognizes the generic `OPENAI_*` and standard `UPSTASH_REDIS_*` names as migration fallbacks, but new Vercel configuration should use the TROTW-prefixed names so this site remains visibly independent from WardensPC.
 
 For rights-holder contact display:
 
@@ -69,9 +71,36 @@ For rights-holder contact display:
 
 See `.env.example` for the complete template.
 
+
+## TROTW 1.1 standalone-service setup
+
+Version 1.1 adds an owner-only service-status panel at `/owner`. After Owner Access is active, the panel reports whether the server can see configuration for:
+
+- novel age gate
+- Read Aloud
+- Reader Poll
+- Publisher / GitHub
+- optional rights-holder contact
+
+The status panel returns only booleans, model/repository labels, and branch names. It never returns passwords, tokens, API keys, or Redis credentials.
+
+Recommended Vercel setup order:
+
+1. `TROTW_NOVEL_GATE_SECRET`
+2. `TROTW_OPENAI_API_KEY` (and optionally `TROTW_OPENAI_TTS_MODEL`)
+3. `TROTW_UPSTASH_REDIS_REST_URL` + `TROTW_UPSTASH_REDIS_REST_TOKEN`
+4. `TROTW_OWNER_CODE`
+5. `TROTW_PUBLISHER_CODE`
+6. `TROTW_GITHUB_TOKEN`
+7. `TROTW_GITHUB_REPOSITORY=ForNextI/TrotW`
+8. `TROTW_GITHUB_BRANCH=main`
+9. `TROTW_PUBLICATION_TIME_ZONE=America/Los_Angeles`
+
+After changing Vercel environment variables, redeploy before testing the service. The preferred QA sequence is age gate → Read Aloud → poll → Owner Access → Publisher preview → harmless Publisher commit/deployment test.
+
 ## Reader Poll migration note
 
-TROTW 1.0.0 intentionally retains the existing private Redis key names used by the WardensPC Read poll. These key names are implementation details and are not WardensPC links or runtime dependencies.
+TROTW intentionally retains the existing private Redis key names used by the WardensPC Read poll. These key names are implementation details and are not WardensPC links or runtime dependencies.
 
 If TROTW is connected to the same Upstash database, the existing aggregate poll totals continue rather than resetting at migration. The browser cookie that remembers whether a reader already voted does **not** transfer between domains, because browsers correctly isolate cookies by domain.
 
@@ -130,13 +159,14 @@ git diff --check
 git status --short
 ```
 
-For the first commit to an empty repository:
+For TROTW 1.1.0 and later updates:
 
 ```bash
 git add -A
-git commit -m "TROTW 1.0.0"
-git branch -M main
-git push -u origin main
+git diff --cached --check
+git status --short
+git commit -m "TROTW 1.1.0"
+git push
 ```
 
 Do not attach `thereadingofthewardens.com` until the Vercel deployment has passed reader and Publisher QA on the Vercel URL.
