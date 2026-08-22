@@ -21,6 +21,13 @@ export function readAloudServiceConfig() {
   }
 }
 
+
+export function narrationLibraryServiceConfig() {
+  return {
+    configured: Boolean(process.env.BLOB_READ_WRITE_TOKEN?.trim()),
+  }
+}
+
 export function pollStoreServiceConfig() {
   const url = firstConfigured(
     'TROTW_UPSTASH_REDIS_REST_URL',

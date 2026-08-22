@@ -8,6 +8,7 @@ type StatusPayload = {
   services?: {
     novelGate?: { configured?: boolean }
     readAloud?: { configured?: boolean; model?: string; usingLegacyVariable?: boolean }
+    narrationLibrary?: { configured?: boolean }
     readerPoll?: { configured?: boolean; usingLegacyVariables?: boolean }
     publisher?: {
       ownerCodeConfigured?: boolean
@@ -90,6 +91,11 @@ export function OwnerServiceStatus() {
               label="Read Aloud"
               configured={Boolean(services?.readAloud?.configured)}
               detail={`${services?.readAloud?.model || 'No model selected'}${services?.readAloud?.usingLegacyVariable ? ' · using legacy OPENAI_API_KEY fallback' : ''}`}
+            />
+            <StatusRow
+              label="Narration library"
+              configured={Boolean(services?.narrationLibrary?.configured)}
+              detail="Vercel Blob shared MP3 cache for Read Aloud."
             />
             <StatusRow
               label="Reader Poll"

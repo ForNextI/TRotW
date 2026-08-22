@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server'
+import { findCachedNarration, narrationCachePath, storeNarration } from '@/lib/read/narration-cache'
 import { isRateLimited } from '@/lib/site/rate-limit'
 import { readingPronunciationInstructions, readingSpeechText } from '@/lib/read/pronunciation-guide'
-import { readAloudServiceConfig } from '@/lib/site/service-config'
+import { narrationLibraryServiceConfig, readAloudServiceConfig } from '@/lib/site/service-config'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -21,25 +22,67 @@ function speakingInstructions(voice: NarrationVoice, text: string) {
   return guide ? `${voiceDirection}\n\n${guide}` : voiceDirection
 }
 
+function audioResponse(audio: ArrayBuffer, cacheStatus: 'MISS' | 'BYPASS') {
+  return new Response(audio, {
+    status: 200,
+    headers: {
+      'Content-Type': 'audio/mpeg',
+      'Cache-Control': 'no-store',
+      'X-Content-Type-Options': 'nosniff',
+      'X-TROTW-Narration-Cache': cacheStatus,
+    },
+  })
+}
+
+function cachedAudioRedirect(url: string) {
+  return new Response(null, {
+    status: 303,
+    headers: {
+      Location: url,
+      'Cache-Control': 'no-store',
+      'X-TROTW-Narration-Cache': 'HIT',
+    },
+  })
+}
+
 export async function POST(request: Request) {
   const service = readAloudServiceConfig()
   if (!service.configured) return NextResponse.json({ error: 'Read Aloud is not configured yet.' }, { status: 503 })
   const apiKey = service.apiKey
-  if (isRateLimited(request, 'read-speech', MAX_REQUESTS_PER_TEN_MINUTES, WINDOW_MS)) {
-    return NextResponse.json({ error: 'This connection has requested too much narration in a short period. Wait a few minutes and try again.' }, { status: 429 })
+
+  if (isRateLimited(request, 'read-aloud', MAX_REQUESTS_PER_TEN_MINUTES, WINDOW_MS)) {
+    return NextResponse.json({ error: 'Read Aloud is receiving too many requests from this connection. Please wait a moment and try again.' }, { status: 429 })
   }
 
-  let body: { text?: unknown; voice?: unknown; profile?: unknown }
-  try { body = await request.json() as { text?: unknown; voice?: unknown; profile?: unknown } }
-  catch { return NextResponse.json({ error: 'The narration request could not be read.' }, { status: 400 }) }
+  let body: { text?: unknown; voice?: unknown }
+  try {
+    body = await request.json() as { text?: unknown; voice?: unknown }
+  } catch {
+    return NextResponse.json({ error: 'The Read Aloud request was not valid.' }, { status: 400 })
+  }
 
   const text = typeof body.text === 'string' ? body.text.replace(/\s+/g, ' ').trim() : ''
   const voice: NarrationVoice = body.voice === 'marin' ? 'marin' : 'fable'
-  if (!text) return NextResponse.json({ error: 'There is nothing to narrate.' }, { status: 400 })
-  if (text.length > MAX_TEXT_LENGTH) return NextResponse.json({ error: 'That narration passage is too long.' }, { status: 413 })
+  if (!text) return NextResponse.json({ error: 'There is no text to read.' }, { status: 400 })
+  if (text.length > MAX_TEXT_LENGTH) {
+    return NextResponse.json({ error: 'This passage is too long for one Read Aloud request.' }, { status: 413 })
+  }
 
   const speechInputText = readingSpeechText(text, voice)
+  const instructions = speakingInstructions(voice, text)
   const model = service.model
+  const cachePath = narrationCachePath({ model, voice, input: speechInputText, instructions })
+  const narrationLibrary = narrationLibraryServiceConfig()
+
+  if (narrationLibrary.configured) {
+    try {
+      const cached = await findCachedNarration(cachePath)
+      if (cached) return cachedAudioRedirect(cached.url)
+    } catch (error) {
+      console.error('TROTW narration-library lookup failed; generating directly.', error)
+    }
+  }
+
   let upstream: Response
   try {
     upstream = await fetch('https://api.openai.com/v1/audio/speech', {
@@ -49,23 +92,45 @@ export async function POST(request: Request) {
         model,
         voice,
         input: speechInputText,
-        instructions: speakingInstructions(voice, text),
+        instructions,
         response_format: 'mp3',
         stream_format: 'audio',
       }),
       signal: AbortSignal.timeout(55_000),
     })
-  } catch (error) {
-    return NextResponse.json({ error: error instanceof Error ? error.message : 'The narration connection failed.' }, { status: 502 })
+  } catch {
+    return NextResponse.json({ error: 'Read Aloud could not reach the narration service. Please try again.' }, { status: 502 })
   }
 
   if (!upstream.ok || !upstream.body) {
-    const payload = await upstream.json().catch(() => ({})) as { error?: { message?: string } }
-    return NextResponse.json({ error: payload.error?.message || 'The narration service could not speak this passage.' }, { status: upstream.status || 502 })
+    const detail = await upstream.text().catch(() => '')
+    console.error('OpenAI Read Aloud failed.', upstream.status, detail.slice(0, 1000))
+    return NextResponse.json({ error: 'Read Aloud could not generate this passage. Please try again.' }, { status: 502 })
   }
 
-  return new Response(upstream.body, {
-    status: 200,
-    headers: { 'Content-Type': 'audio/mpeg', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' },
-  })
+  let audio: ArrayBuffer
+  try {
+    audio = await upstream.arrayBuffer()
+  } catch {
+    return NextResponse.json({ error: 'Read Aloud received an incomplete narration. Please try again.' }, { status: 502 })
+  }
+
+  if (narrationLibrary.configured) {
+    try {
+      await storeNarration(cachePath, audio)
+      return audioResponse(audio, 'MISS')
+    } catch (error) {
+      // A second server instance may have won the first-write race. If so,
+      // the library is healthy and the saved recording can be reused now.
+      try {
+        const cached = await findCachedNarration(cachePath)
+        if (cached) return cachedAudioRedirect(cached.url)
+      } catch (lookupError) {
+        console.error('TROTW narration-library recovery lookup failed.', lookupError)
+      }
+      console.error('TROTW narration-library write failed; serving generated audio without caching it.', error)
+    }
+  }
+
+  return audioResponse(audio, 'BYPASS')
 }

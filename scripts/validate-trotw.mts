@@ -5,7 +5,7 @@ const ROOT = process.cwd()
 const FAN_NOTICE = 'The Reading of the Wardens is unofficial Fan Content permitted under the Fan Content Policy. Not approved/endorsed by Wizards. Portions of the materials used are property of Wizards of the Coast. ©Wizards of the Coast LLC.'
 
 function fail(message: string): never {
-  console.error(`\nTROTW 1.1.0 validation failed: ${message}`)
+  console.error(`\nTROTW 1.2.0 validation failed: ${message}`)
   process.exit(1)
 }
 
@@ -29,7 +29,7 @@ function walk(directory: string): string[] {
 }
 
 const packageJson = JSON.parse(text('package.json')) as { version?: string; scripts?: Record<string, string> }
-if (packageJson.version !== '1.1.0') fail('package.json is not version 1.1.0')
+if (packageJson.version !== '1.2.0') fail('package.json is not version 1.2.0')
 if (!packageJson.scripts?.['validate:version'] || !packageJson.scripts?.['validate:release']) fail('release validation scripts are missing')
 
 const layout = text('app/layout.tsx')
@@ -59,6 +59,7 @@ for (const required of [
   'app/api/owner/service-status/route.ts',
   'components/owner/owner-service-status.tsx',
   'lib/site/service-config.ts',
+  'lib/read/narration-cache.ts',
   'app/read/toril/[releaseId]/page.tsx',
   'components/read/read-aloud.tsx',
   'components/read/reader-poll.tsx',
@@ -129,8 +130,19 @@ for (const imagePath of imagePaths) {
 }
 
 const envExample = text('.env.example')
-for (const expected of ['TROTW_OWNER_CODE', 'TROTW_PUBLISHER_CODE', 'TROTW_NOVEL_GATE_SECRET', 'TROTW_GITHUB_TOKEN', 'TROTW_OPENAI_API_KEY', 'TROTW_OPENAI_TTS_MODEL', 'TROTW_UPSTASH_REDIS_REST_URL', 'TROTW_UPSTASH_REDIS_REST_TOKEN']) {
+for (const expected of ['TROTW_OWNER_CODE', 'TROTW_PUBLISHER_CODE', 'TROTW_NOVEL_GATE_SECRET', 'TROTW_GITHUB_TOKEN', 'TROTW_OPENAI_API_KEY', 'TROTW_OPENAI_TTS_MODEL', 'BLOB_READ_WRITE_TOKEN', 'TROTW_UPSTASH_REDIS_REST_URL', 'TROTW_UPSTASH_REDIS_REST_TOKEN']) {
   if (!envExample.includes(`${expected}=`)) fail(`.env.example is missing ${expected}`)
+}
+
+const packageDependencies = (packageJson as { dependencies?: Record<string, string> }).dependencies || {}
+if (!packageDependencies['@vercel/blob']) fail('@vercel/blob dependency is missing')
+const narrationCache = text('lib/read/narration-cache.ts')
+for (const expected of ['createHash', 'read-aloud/v1', "access: 'public'", 'addRandomSuffix: false']) {
+  if (!narrationCache.includes(expected)) fail(`shared narration cache is missing ${expected}`)
+}
+const speechRoute = text('app/api/read/speech/route.ts')
+for (const expected of ['findCachedNarration', 'storeNarration', 'X-TROTW-Narration-Cache']) {
+  if (!speechRoute.includes(expected)) fail(`Read Aloud route is missing shared-cache behavior: ${expected}`)
 }
 
 const serviceConfig = text('lib/site/service-config.ts')
@@ -140,7 +152,7 @@ for (const expected of ['TROTW_OPENAI_API_KEY', 'OPENAI_API_KEY', 'TROTW_UPSTASH
 const serviceStatusRoute = text('app/api/owner/service-status/route.ts')
 if (!serviceStatusRoute.includes('hasOwnerAccessSession')) fail('owner service-status route is not protected by Owner Access')
 const ownerServiceStatus = text('components/owner/owner-service-status.tsx')
-for (const expected of ['Novel age gate', 'Read Aloud', 'Reader Poll', 'Publisher']) {
+for (const expected of ['Novel age gate', 'Read Aloud', 'Narration library', 'Reader Poll', 'Publisher']) {
   if (!ownerServiceStatus.includes(expected)) fail(`owner service-status panel is missing ${expected}`)
 }
 
@@ -154,5 +166,5 @@ for (const pattern of secretPatterns) {
   if (pattern.test(repositoryText)) fail('a credential-shaped secret appears to be committed in source')
 }
 
-console.log('TROTW 1.1.0 release validation passed.')
+console.log('TROTW 1.2.0 release validation passed.')
 console.log(`Validated ${catalog.length} published release units and ${imagePaths.length} referenced catalog/state images.`)

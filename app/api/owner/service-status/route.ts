@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { novelGateConfigured } from '@/lib/read/novel-gate'
 import { readPublisherGitHubStatus } from '@/lib/read/github-publisher'
 import { hasOwnerAccessSession } from '@/lib/site/server-access'
-import { pollStoreServiceConfig, readAloudServiceConfig } from '@/lib/site/service-config'
+import { narrationLibraryServiceConfig, pollStoreServiceConfig, readAloudServiceConfig } from '@/lib/site/service-config'
 import { TROTW_VERSION } from '@/lib/site/version'
 
 export const runtime = 'nodejs'
@@ -16,6 +16,7 @@ export async function GET(request: Request) {
   }
 
   const readAloud = readAloudServiceConfig()
+  const narrationLibrary = narrationLibraryServiceConfig()
   const poll = pollStoreServiceConfig()
   const github = readPublisherGitHubStatus()
 
@@ -28,6 +29,7 @@ export async function GET(request: Request) {
         model: readAloud.model,
         usingLegacyVariable: readAloud.usingLegacyVariable,
       },
+      narrationLibrary: { configured: narrationLibrary.configured },
       readerPoll: {
         configured: poll.configured,
         usingLegacyVariables: poll.usingLegacyVariables,

@@ -1,6 +1,6 @@
 # The Reading of the Wardens
 
-**TROTW 1.1.0** is the standalone home of *The Wardens of Waterdeep* and the Read experience originally published as part of WardensPC.
+**TROTW 1.2.0** is the standalone home of *The Wardens of Waterdeep* and the Read experience originally published as part of WardensPC.
 
 - Production domain: `https://thereadingofthewardens.com`
 - GitHub repository: `ForNextI/TrotW`
@@ -57,13 +57,14 @@ For Read Aloud:
 
 - `TROTW_OPENAI_API_KEY`
 - `TROTW_OPENAI_TTS_MODEL` — optional; defaults to `gpt-4o-mini-tts`
+- `BLOB_READ_WRITE_TOKEN` — added automatically when the public Vercel Blob narration store is connected to this project
 
 For the Reader Poll:
 
 - `TROTW_UPSTASH_REDIS_REST_URL`
 - `TROTW_UPSTASH_REDIS_REST_TOKEN`
 
-TROTW 1.1.0 still recognizes the generic `OPENAI_*` and standard `UPSTASH_REDIS_*` names as migration fallbacks, but new Vercel configuration should use the TROTW-prefixed names so this site remains visibly independent from WardensPC.
+TROTW 1.2.0 still recognizes the generic `OPENAI_*` and standard `UPSTASH_REDIS_*` names as migration fallbacks, but new Vercel configuration should use the TROTW-prefixed names so this site remains visibly independent from WardensPC.
 
 For rights-holder contact display:
 
@@ -71,6 +72,17 @@ For rights-holder contact display:
 
 See `.env.example` for the complete template.
 
+
+
+## TROTW 1.2 shared Read Aloud narration library
+
+Read Aloud now treats generated narration as a reusable published asset instead of regenerating the same passage for every listener. For each normalized passage, voice, TTS model, speech input, and narration-instruction combination, the server creates a deterministic SHA-256 cache key.
+
+On a request, TROTW first checks the connected public Vercel Blob store. A cache hit redirects the reader to the saved MP3 and does not call OpenAI. On a cache miss, TROTW generates the MP3 once with OpenAI, stores it under the deterministic key, and serves the audio. Later readers reuse that same recording. Changes to prose, pronunciation substitutions, narration instructions, voice, or model naturally produce a different key and therefore a new recording.
+
+The Blob path namespace is `read-aloud/v1/`. The version in that path is a deliberate cache-schema version, independent of the TROTW application version. Bump the cache-schema version only when the entire narration library should be regenerated even though the effective OpenAI request payload is otherwise unchanged.
+
+If Blob storage is temporarily unavailable, Read Aloud falls back to direct OpenAI generation rather than failing the reader. The owner service-status panel reports OpenAI Read Aloud and the narration library separately so a missing Blob connection is visible.
 
 ## TROTW 1.1 standalone-service setup
 
@@ -159,13 +171,13 @@ git diff --check
 git status --short
 ```
 
-For TROTW 1.1.0 and later updates:
+For TROTW 1.2.0 and later updates:
 
 ```bash
 git add -A
 git diff --cached --check
 git status --short
-git commit -m "TROTW 1.1.0"
+git commit -m "TROTW 1.2.0"
 git push
 ```
 
