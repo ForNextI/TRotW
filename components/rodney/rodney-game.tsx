@@ -318,8 +318,12 @@ export function RodneyGame() {
           <div className="grid gap-5 sm:grid-cols-[minmax(0,1fr)_minmax(12rem,0.8fr)_auto] sm:items-start">
             <div>
               <p className="font-mono text-xs font-bold uppercase tracking-[0.22em] text-primary">Rodney’s pot</p>
-              <h2 id="rodney-game-heading" className="mt-2 flex min-h-20 flex-col items-start gap-y-1 font-display font-bold text-accent sm:min-h-24">
-                <span className="whitespace-nowrap">{formatCoins(currentScoreTotalSilver)}</span>
+              <h2 id="rodney-game-heading" className="mt-2 flex min-h-20 flex-col items-start gap-y-1 font-display text-4xl font-bold text-accent sm:min-h-24 sm:text-5xl">
+                {formatCoins(currentScoreTotalSilver).split(', ').map((coin, index, coins) => (
+                  <span key={`${coin}-${index}`} className="whitespace-nowrap">
+                    {coin}{index < coins.length - 1 ? ',' : ''}
+                  </span>
+                ))}
               </h2>
             </div>
             <div className={`${championCelebrating ? 'rodney-champion-celebration' : ''} self-start sm:text-center`}>
