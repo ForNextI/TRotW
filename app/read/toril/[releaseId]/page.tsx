@@ -44,7 +44,7 @@ export default async function ReleasePage({ params }: ReleasePageProps) {
     <div id="top" className="medieval-page medieval-page--read min-h-screen text-stone-100">
       <header className="relative z-20 border-b border-amber-200/10 bg-black/20 px-5 py-3 backdrop-blur sm:px-8">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3">
-          <Link href="/read" className="inline-flex items-center gap-2 text-sm font-semibold rounded-lg border border-amber-200/35 bg-black/35 px-3 py-2 text-amber-100 transition hover:border-amber-200/60 hover:bg-black/50">
+          <Link href="/read" className="inline-flex items-center gap-2 text-sm font-semibold text-stone-400 transition hover:text-stone-100">
             <ArrowLeft className="size-4" aria-hidden="true" />
             Back to Read overview
           </Link>
