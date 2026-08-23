@@ -37,30 +37,31 @@ export function TrotwoodHeader({ active }: TrotwoodHeaderProps) {
           <span className="text-base sm:text-xl">Trotwood</span>
         </Link>
 
-        <NavDiamond />
+        <div className="ml-auto flex shrink-0 items-center gap-2 sm:gap-3">
+          <NavDiamond />
 
-        <nav className="flex min-w-0 items-center gap-1 sm:gap-2" aria-label="Trotwood">
-          <Link
-            href="/"
-            aria-current={active === 'read' ? 'page' : undefined}
-            className={navClass(active === 'read')}
-          >
-            Read
-          </Link>
+          <nav className="flex items-center gap-2 sm:gap-3" aria-label="Trotwood">
+            <Link
+              href="/"
+              aria-current={active === 'read' ? 'page' : undefined}
+              className={navClass(active === 'read')}
+            >
+              Read
+            </Link>
+
+            <NavDiamond />
+
+            <Link
+              href="/rodney"
+              aria-current={active === 'rodney' ? 'page' : undefined}
+              className={navClass(active === 'rodney')}
+            >
+              Rodney
+            </Link>
+          </nav>
 
           <NavDiamond />
 
-          <Link
-            href="/rodney"
-            aria-current={active === 'rodney' ? 'page' : undefined}
-            className={navClass(active === 'rodney')}
-          >
-            Rodney
-          </Link>
-        </nav>
-
-        <div className="ml-auto flex shrink-0 items-center gap-3">
-          <NavDiamond />
           <FullscreenToggle className="inline-flex size-9 items-center justify-center rounded-xl border border-border bg-background/70 text-muted-foreground transition hover:border-primary/55 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:size-10" />
         </div>
       </div>
