@@ -5,7 +5,7 @@ const ROOT = process.cwd()
 const FAN_NOTICE = 'The Reading of the Wardens is unofficial Fan Content permitted under the Fan Content Policy. Not approved/endorsed by Wizards. Portions of the materials used are property of Wizards of the Coast. ©Wizards of the Coast LLC.'
 
 function fail(message: string): never {
-  console.error(`\nTROTW 2.1.03 validation failed: ${message}`)
+  console.error(`\nTROTW 2.1.05 validation failed: ${message}`)
   process.exit(1)
 }
 
@@ -29,7 +29,7 @@ function walk(directory: string): string[] {
 }
 
 const packageJson = JSON.parse(text('package.json')) as { version?: string; scripts?: Record<string, string> }
-if (packageJson.version !== '2.1.3') fail('package.json is not version 2.1.3')
+if (packageJson.version !== '2.1.5') fail('package.json is not version 2.1.5')
 if (!packageJson.scripts?.['validate:version'] || !packageJson.scripts?.['validate:release']) fail('release validation scripts are missing')
 
 const layout = text('app/layout.tsx')
@@ -140,7 +140,7 @@ for (const imagePath of imagePaths) {
 }
 
 const envExample = text('.env.example')
-for (const expected of ['TROTW_OWNER_CODE', 'TROTW_PUBLISHER_CODE', 'TROTW_NOVEL_GATE_SECRET', 'TROTW_RODNEY_STATE_SECRET', 'TROTW_GITHUB_TOKEN', 'TROTW_OPENAI_API_KEY', 'TROTW_OPENAI_TTS_MODEL', 'BLOB_READ_WRITE_TOKEN', 'TROTW_UPSTASH_REDIS_REST_URL', 'TROTW_UPSTASH_REDIS_REST_TOKEN']) {
+for (const expected of ['TROTW_OWNER_CODE', 'TROTW_PUBLISHER_CODE', 'TROTW_NOVEL_GATE_SECRET', 'TROTW_RODNEY_STATE_SECRET', 'TROTW_GITHUB_TOKEN', 'TROTW_OPENAI_API_KEY', 'TROTW_OPENAI_TTS_MODEL', 'BLOB_READ_WRITE_TOKEN', 'KV_REST_API_URL', 'KV_REST_API_TOKEN']) {
   if (!envExample.includes(`${expected}=`)) fail(`.env.example is missing ${expected}`)
 }
 
@@ -163,7 +163,7 @@ for (const expected of ['findCachedNarration', 'storeNarration', 'X-TROTW-Narrat
 }
 
 const serviceConfig = text('lib/site/service-config.ts')
-for (const expected of ['TROTW_OPENAI_API_KEY', 'OPENAI_API_KEY', 'TROTW_UPSTASH_REDIS_REST_URL', 'UPSTASH_REDIS_REST_URL']) {
+for (const expected of ['TROTW_OPENAI_API_KEY', 'OPENAI_API_KEY', 'KV_REST_API_URL', 'UPSTASH_REDIS_REST_URL']) {
   if (!serviceConfig.includes(expected)) fail(`standalone service configuration is missing ${expected}`)
 }
 const serviceStatusRoute = text('app/api/owner/service-status/route.ts')
@@ -206,5 +206,5 @@ for (const pattern of secretPatterns) {
   if (pattern.test(repositoryText)) fail('a credential-shaped secret appears to be committed in source')
 }
 
-console.log('TROTW 2.1.03 release validation passed.')
+console.log('TROTW 2.1.05 release validation passed.')
 console.log(`Validated ${catalog.length} published release units and ${imagePaths.length} referenced catalog/state images.`)

@@ -67,14 +67,14 @@ For Read Aloud:
 
 For the Reader Poll and Rodney’s shared Roll of Fortune:
 
-- `TROTW_UPSTASH_REDIS_REST_URL`
-- `TROTW_UPSTASH_REDIS_REST_TOKEN`
+- `KV_REST_API_URL`
+- `KV_REST_API_TOKEN`
 
 For Rodney state signing:
 
 - `TROTW_RODNEY_STATE_SECRET` — recommended separate signing secret; TROTW can fall back to the existing novel-gate secret during migration
 
-TROTW 2.0 still recognizes the generic `OPENAI_*` and standard `UPSTASH_REDIS_*` names as migration fallbacks, but new Vercel configuration should use the TROTW-prefixed names so this site remains visibly independent from WardensPC.
+TROTW uses the Vercel-linked `KV_REST_API_URL` and `KV_REST_API_TOKEN` variables for the shared Reader Poll and Rodney ledger. Older `UPSTASH_REDIS_*` names remain accepted as migration fallbacks.
 
 For rights-holder contact display:
 
@@ -115,7 +115,7 @@ Recommended Vercel setup order:
 
 1. `TROTW_NOVEL_GATE_SECRET`
 2. `TROTW_OPENAI_API_KEY` (and optionally `TROTW_OPENAI_TTS_MODEL`)
-3. `TROTW_UPSTASH_REDIS_REST_URL` + `TROTW_UPSTASH_REDIS_REST_TOKEN`
+3. `KV_REST_API_URL` + `KV_REST_API_TOKEN`
 4. `TROTW_RODNEY_STATE_SECRET`
 5. `TROTW_OWNER_CODE`
 6. `TROTW_PUBLISHER_CODE`

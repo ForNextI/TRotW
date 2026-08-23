@@ -30,7 +30,7 @@ export function narrationLibraryServiceConfig() {
 
 export function pollStoreServiceConfig() {
   const url = firstConfigured(
-    'TROTW_UPSTASH_REDIS_REST_URL',
+    'KV_REST_API_URL',
     'UPSTASH_REDIS_REST_URL',
     'UPSTASH_REDIS_REST_API_URL',
     'UPSTASH_REDIS_REST_REST_API_URL',
@@ -42,7 +42,7 @@ export function pollStoreServiceConfig() {
   )?.[1]?.trim() || ''
 
   const token = firstConfigured(
-    'TROTW_UPSTASH_REDIS_REST_TOKEN',
+    'KV_REST_API_TOKEN',
     'UPSTASH_REDIS_REST_TOKEN',
     'UPSTASH_REDIS_REST_API_TOKEN',
     'UPSTASH_REDIS_REST_REST_API_TOKEN',
@@ -60,7 +60,7 @@ export function pollStoreServiceConfig() {
     token: normalizedToken,
     configured: Boolean(normalizedUrl && normalizedToken),
     usingLegacyVariables: Boolean(
-      (!process.env.TROTW_UPSTASH_REDIS_REST_URL?.trim() || !process.env.TROTW_UPSTASH_REDIS_REST_TOKEN?.trim()) &&
+      (!process.env.KV_REST_API_URL?.trim() || !process.env.KV_REST_API_TOKEN?.trim()) &&
       normalizedUrl &&
       normalizedToken,
     ),
