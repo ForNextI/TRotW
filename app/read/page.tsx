@@ -150,6 +150,15 @@ export default async function ReadPage() {
 
         {currentBonusImage && (
           <section className="px-5 py-12 sm:px-8 sm:py-16" aria-label="Latest bonus illustration">
+            <div className="mx-auto mb-5 flex max-w-6xl justify-center">
+              <div className="relative rounded-xl border border-amber-900/70 bg-gradient-to-b from-amber-200 via-amber-500 to-amber-700 px-8 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.5),0_6px_18px_rgba(0,0,0,0.28)]">
+                <span className="absolute left-3 top-1/2 size-1.5 -translate-y-1/2 rounded-full bg-amber-950/70" aria-hidden="true" />
+                <p className="font-display text-base font-black uppercase tracking-[0.18em] text-amber-950 sm:text-lg">
+                  Latest Bonus Image
+                </p>
+                <span className="absolute right-3 top-1/2 size-1.5 -translate-y-1/2 rounded-full bg-amber-950/70" aria-hidden="true" />
+              </div>
+            </div>
             <figure className="mx-auto max-w-6xl overflow-hidden rounded-3xl border border-accent/35 bg-card p-2 shadow-2xl shadow-black/25">
               <Image src={currentBonusImage.src} alt={currentBonusImage.alt} width={currentBonusImage.width || 1536} height={currentBonusImage.height || 1024} className="h-auto w-full rounded-2xl" />
               <figcaption className="flex items-center gap-3 px-4 py-4">
