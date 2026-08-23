@@ -295,7 +295,7 @@ export function RodneyGame() {
               <span className="rodney-lamp-off rodney-lamp-right" aria-hidden="true" />
               <span className={`rodney-lamp-flash rodney-lamp-left ${winnerCelebrating ? 'is-flashing' : ''}`} aria-hidden="true" />
               <span className={`rodney-lamp-flash rodney-lamp-right ${winnerCelebrating ? 'is-flashing' : ''}`} aria-hidden="true" />
-              {winnerTextVisible && <span className="rodney-winner-word font-blackletter" data-text="Fortune!" role="status">Fortune!</span>}
+              {winnerTextVisible && <span className="rodney-winner-word font-blackletter" data-text="Winner!" role="status">Winner!</span>}
             </div>
           </section>
           <p className="mx-auto mt-4 max-w-2xl px-2 text-center font-display text-base leading-relaxed text-foreground sm:text-lg">
@@ -337,7 +337,7 @@ export function RodneyGame() {
             <div className="rodney-dice-stage relative flex min-h-28 items-center justify-center overflow-hidden" aria-label={diceRolling ? 'Rodney is rolling the bones' : state.dice ? `Dice show ${state.dice[0]} and ${state.dice[1]}` : 'No dice have been rolled'}>
               <RodneyBones dice={state.dice} rolling={diceRolling} />
             </div>
-            <p className="mt-3 min-h-6 font-semibold text-foreground" aria-live="polite">{diceRolling ? 'Rolling the bones…' : state.message}</p>
+            <p className="mt-3 min-h-6 whitespace-pre-line font-semibold text-foreground" aria-live="polite">{diceRolling ? 'Rolling the bones…' : state.message}</p>
 
           </div>
 

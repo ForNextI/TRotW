@@ -75,7 +75,7 @@ export async function POST(request: Request) {
       score_silver: current.score_silver + 1,
       phase: 'round_ready',
       dice: null,
-      message: 'Your 1 sp wager joins Rodney’s pot. Roll the bones.',
+      message: 'Your 1 sp wager joins Rodney’s pot.\nRoll the bones.',
     })
   }
 
@@ -124,7 +124,7 @@ export async function POST(request: Request) {
       qualifying_doubles: nextDoubles,
       message: qualifyingDouble
         ? `Double ${dice[0]}s. Tymora’s Favor rises to ${nextDoubles} of 6.`
-        : `You rolled ${dice[0] + dice[1]}. No payout. Your wager stays in Rodney’s pot, now ${formatCoinTotal(current.score_silver)}.`,
+        : `You rolled a ${dice[0] + dice[1]}.`,
     })
   }
 
