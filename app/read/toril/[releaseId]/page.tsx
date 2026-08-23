@@ -1,11 +1,12 @@
 import type { Metadata } from 'next'
-import { ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { Mistinarperadnacles } from '@/components/read/mistinarperadnacles'
 import { ReadAloudControl, ReadAloudReleaseRegistrar } from '@/components/read/read-aloud'
 import { ReadTableOfContents } from '@/components/read/read-table-of-contents'
 import { ReaderPoll } from '@/components/read/reader-poll'
+import { TrotwoodHeader } from '@/components/showcase/trotwood-header'
 import { getReadBooks, getReadRelease, getReleaseCatalog, releaseLabel } from '@/lib/read/releases'
 
 interface ReleasePageProps {
@@ -42,17 +43,13 @@ export default async function ReleasePage({ params }: ReleasePageProps) {
 
   return (
     <div id="top" className="medieval-page medieval-page--read min-h-screen text-stone-100">
-      <header className="relative z-20 border-b border-amber-200/10 bg-black/20 px-5 py-3 backdrop-blur sm:px-8">
-        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3">
-          <Link href="/read" className="inline-flex items-center gap-2 text-sm font-semibold text-stone-400 transition hover:text-stone-100">
-            <ArrowLeft className="size-4" aria-hidden="true" />
-            Back to Read overview
-          </Link>
-          <Mistinarperadnacles />
-        </div>
-      </header>
+      <TrotwoodHeader active="read" />
 
       <main id="main-content" tabIndex={-1} className="px-4 py-8 sm:px-8 sm:py-12">
+        <div className="mx-auto mb-4 flex max-w-4xl justify-end">
+          <Mistinarperadnacles />
+        </div>
+
         <article className="relative z-10 mx-auto max-w-4xl overflow-hidden rounded-[2rem] border border-amber-900/55 bg-[#e7d4a7] px-6 py-10 text-[#2a2115] shadow-[0_35px_90px_rgba(0,0,0,0.55),inset_0_0_80px_rgba(92,58,19,0.16)] sm:px-12 sm:py-14">
           <div className="pointer-events-none absolute inset-0 opacity-20 [background-image:radial-gradient(rgba(77,48,16,0.35)_0.6px,transparent_0.6px)] [background-size:6px_6px]" aria-hidden="true" />
           <div className="relative">

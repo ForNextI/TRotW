@@ -5,7 +5,7 @@ const ROOT = process.cwd()
 const FAN_NOTICE = 'The Reading of the Wardens is unofficial Fan Content permitted under the Fan Content Policy. Not approved/endorsed by Wizards. Portions of the materials used are property of Wizards of the Coast. ©Wizards of the Coast LLC.'
 
 function fail(message: string): never {
-  console.error(`\nTROTW 2.1.012 validation failed: ${message}`)
+  console.error(`\nTROTW 2.1.013 validation failed: ${message}`)
   process.exit(1)
 }
 
@@ -29,7 +29,7 @@ function walk(directory: string): string[] {
 }
 
 const packageJson = JSON.parse(text('package.json')) as { version?: string; scripts?: Record<string, string> }
-if (packageJson.version !== '2.1.12') fail('package.json is not version 2.1.12')
+if (packageJson.version !== '2.1.13') fail('package.json is not version 2.1.13')
 if (!packageJson.scripts?.['validate:version'] || !packageJson.scripts?.['validate:release']) fail('release validation scripts are missing')
 
 const layout = text('app/layout.tsx')
@@ -194,6 +194,8 @@ if (!mistTiming.includes('const FIRST_VISIT_DELAY_MS = 300_000')) fail('first au
 if (!mistTiming.includes('const MIN_REPEAT_DELAY_MS = 90_000')) fail('Mistinarperadnacles repeat minimum changed unexpectedly')
 if (!mistTiming.includes('const MAX_REPEAT_DELAY_MS = 300_000')) fail('Mistinarperadnacles repeat maximum changed unexpectedly')
 const releasePage = text('app/read/toril/[releaseId]/page.tsx')
+if (!releasePage.includes('TrotwoodHeader active="read"')) fail('published reading pages are missing the persistent Trotwood header')
+if (releasePage.includes('Back to Read overview')) fail('legacy reading-page header remains')
 if (!releasePage.includes("release.canonicalId === '1.01' ? <ReaderPoll />")) fail('Reader Poll is not limited to the Yawning Portal release')
 const rodneyPage = text('app/rodney/page.tsx')
 if (!rodneyPage.includes('TrotwoodHeader active="rodney"')) fail('Rodney is missing the shared Trotwood header')
@@ -215,5 +217,5 @@ for (const pattern of secretPatterns) {
   if (pattern.test(repositoryText)) fail('a credential-shaped secret appears to be committed in source')
 }
 
-console.log('TROTW 2.1.012 release validation passed.')
+console.log('TROTW 2.1.013 release validation passed.')
 console.log(`Validated ${catalog.length} published release units and ${imagePaths.length} referenced catalog/state images.`)
