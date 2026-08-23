@@ -37,7 +37,7 @@ export function TrotwoodHeader({ active }: TrotwoodHeaderProps) {
 
           <nav className="flex items-center gap-3 sm:gap-4" aria-label="Trotwood">
             <Link
-              href="/"
+              href="/read/toril"
               aria-current={active === 'read' ? 'page' : undefined}
               className={navClass()}
             >

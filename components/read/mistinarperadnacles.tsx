@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { MotionSettingsControl, useMotionPreference } from '@/components/accessibility/motion-preference'
 
-const FIRST_VISIT_DELAY_MS = 23_000
+const FIRST_VISIT_DELAY_MS = 300_000
 const MIN_REPEAT_DELAY_MS = 90_000
 const MAX_REPEAT_DELAY_MS = 300_000
 const VISIT_MS = 10_500
