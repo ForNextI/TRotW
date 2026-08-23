@@ -47,7 +47,7 @@ export default async function ReadPage() {
                   Adventures with AI
                 </p>
                 <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-                  A fantasy saga born from a D&amp;D 5.5e campaign played with an AI Game Master.
+                  The Wardens of Waterdeep is a fantasy saga born from a D&amp;D 5.5e campaign played with an AI Game Master.
                 </p>
               </div>
             </div>
