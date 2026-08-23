@@ -2,7 +2,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 
 const ROOT = process.cwd()
-const EXPECTED = '2.1.5'
+const EXPECTED = '2.1.6'
 
 function fail(message: string): never {
   console.error(`\nTROTW version validation failed: ${message}`)

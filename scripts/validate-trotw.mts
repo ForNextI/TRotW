@@ -5,7 +5,7 @@ const ROOT = process.cwd()
 const FAN_NOTICE = 'The Reading of the Wardens is unofficial Fan Content permitted under the Fan Content Policy. Not approved/endorsed by Wizards. Portions of the materials used are property of Wizards of the Coast. ©Wizards of the Coast LLC.'
 
 function fail(message: string): never {
-  console.error(`\nTROTW 2.1.05 validation failed: ${message}`)
+  console.error(`\nTROTW 2.1.06 validation failed: ${message}`)
   process.exit(1)
 }
 
@@ -29,7 +29,7 @@ function walk(directory: string): string[] {
 }
 
 const packageJson = JSON.parse(text('package.json')) as { version?: string; scripts?: Record<string, string> }
-if (packageJson.version !== '2.1.5') fail('package.json is not version 2.1.5')
+if (packageJson.version !== '2.1.6') fail('package.json is not version 2.1.6')
 if (!packageJson.scripts?.['validate:version'] || !packageJson.scripts?.['validate:release']) fail('release validation scripts are missing')
 
 const layout = text('app/layout.tsx')
@@ -181,7 +181,7 @@ if (readLanding.includes('<ReaderPoll')) fail('Reader Poll still appears on the 
 if (readLanding.includes('Current Bonus Image') || readLanding.includes('Read the Adventure Now')) fail('legacy landing-page waypoint/CTA remains')
 if (readLanding.includes('src="/images/wardens-hero.png"')) fail('redundant Read hero image returned in 2.1')
 const trotwoodHeader = text('components/showcase/trotwood-header.tsx')
-for (const expected of ['Trotwood', 'Read', 'Rodney', 'href="/rodney"', 'sticky top-0']) {
+for (const expected of ['Trotwood', 'Read', 'Rodney', 'href="/rodney"', 'sticky top-0', 'NavDiamond', 'FullscreenToggle']) {
   if (!trotwoodHeader.includes(expected)) fail(`Trotwood header is missing 2.1 behavior: ${expected}`)
 }
 const releasePage = text('app/read/toril/[releaseId]/page.tsx')
@@ -206,5 +206,5 @@ for (const pattern of secretPatterns) {
   if (pattern.test(repositoryText)) fail('a credential-shaped secret appears to be committed in source')
 }
 
-console.log('TROTW 2.1.05 release validation passed.')
+console.log('TROTW 2.1.06 release validation passed.')
 console.log(`Validated ${catalog.length} published release units and ${imagePaths.length} referenced catalog/state images.`)
