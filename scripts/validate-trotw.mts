@@ -5,7 +5,7 @@ const ROOT = process.cwd()
 const FAN_NOTICE = 'The Reading of the Wardens is unofficial Fan Content permitted under the Fan Content Policy. Not approved/endorsed by Wizards. Portions of the materials used are property of Wizards of the Coast. ©Wizards of the Coast LLC.'
 
 function fail(message: string): never {
-  console.error(`\nTROTW 2.1.08 validation failed: ${message}`)
+  console.error(`\nTROTW 2.1.09 validation failed: ${message}`)
   process.exit(1)
 }
 
@@ -29,7 +29,7 @@ function walk(directory: string): string[] {
 }
 
 const packageJson = JSON.parse(text('package.json')) as { version?: string; scripts?: Record<string, string> }
-if (packageJson.version !== '2.1.8') fail('package.json is not version 2.1.8')
+if (packageJson.version !== '2.1.9') fail('package.json is not version 2.1.9')
 if (!packageJson.scripts?.['validate:version'] || !packageJson.scripts?.['validate:release']) fail('release validation scripts are missing')
 
 const layout = text('app/layout.tsx')
@@ -146,6 +146,8 @@ for (const expected of ['TROTW_OWNER_CODE', 'TROTW_PUBLISHER_CODE', 'TROTW_NOVEL
 
 const packageDependencies = (packageJson as { dependencies?: Record<string, string> }).dependencies || {}
 if (!packageDependencies['@vercel/blob']) fail('@vercel/blob dependency is missing')
+const narrationServiceConfig = text('lib/site/service-config.ts')
+if (!narrationServiceConfig.includes("'trotw_STORE_ID'")) fail('Narration library is missing the linked Trotwood Blob store ID')
 const narrationCache = text('lib/read/narration-cache.ts')
 for (const expected of ['createHash', 'read-aloud/v1', "access: 'public'", 'addRandomSuffix: false']) {
   if (!narrationCache.includes(expected)) fail(`shared narration cache is missing ${expected}`)
@@ -206,5 +208,5 @@ for (const pattern of secretPatterns) {
   if (pattern.test(repositoryText)) fail('a credential-shaped secret appears to be committed in source')
 }
 
-console.log('TROTW 2.1.08 release validation passed.')
+console.log('TROTW 2.1.09 release validation passed.')
 console.log(`Validated ${catalog.length} published release units and ${imagePaths.length} referenced catalog/state images.`)

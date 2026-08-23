@@ -38,9 +38,9 @@ function isBlobNotFound(error: unknown) {
   return error instanceof Error && error.name === 'BlobNotFoundError'
 }
 
-export async function findCachedNarration(pathname: string): Promise<CachedNarration | null> {
+export async function findCachedNarration(pathname: string, storeId?: string): Promise<CachedNarration | null> {
   try {
-    const blob = await head(pathname)
+    const blob = await head(pathname, storeId ? { storeId } : undefined)
     return { pathname: blob.pathname, url: blob.url }
   } catch (error) {
     if (isBlobNotFound(error)) return null
@@ -48,12 +48,13 @@ export async function findCachedNarration(pathname: string): Promise<CachedNarra
   }
 }
 
-export async function storeNarration(pathname: string, audio: ArrayBuffer): Promise<CachedNarration> {
+export async function storeNarration(pathname: string, audio: ArrayBuffer, storeId?: string): Promise<CachedNarration> {
   const blob = await put(pathname, audio, {
     access: 'public',
     addRandomSuffix: false,
     contentType: 'audio/mpeg',
     cacheControlMaxAge: NARRATION_CACHE_SECONDS,
+    ...(storeId ? { storeId } : {}),
   })
   return { pathname: blob.pathname, url: blob.url }
 }

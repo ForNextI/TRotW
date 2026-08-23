@@ -23,8 +23,13 @@ export function readAloudServiceConfig() {
 
 
 export function narrationLibraryServiceConfig() {
+  const storeId = firstConfigured('trotw_STORE_ID', 'BLOB_STORE_ID')
+  const legacyToken = firstConfigured('BLOB_READ_WRITE_TOKEN')
+
   return {
-    configured: Boolean(process.env.BLOB_READ_WRITE_TOKEN?.trim()),
+    storeId,
+    configured: Boolean(storeId || legacyToken),
+    usingLegacyToken: Boolean(!storeId && legacyToken),
   }
 }
 

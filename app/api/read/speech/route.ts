@@ -76,7 +76,7 @@ export async function POST(request: Request) {
 
   if (narrationLibrary.configured) {
     try {
-      const cached = await findCachedNarration(cachePath)
+      const cached = await findCachedNarration(cachePath, narrationLibrary.storeId)
       if (cached) return cachedAudioRedirect(cached.url)
     } catch (error) {
       console.error('TROTW narration-library lookup failed; generating directly.', error)
@@ -117,13 +117,13 @@ export async function POST(request: Request) {
 
   if (narrationLibrary.configured) {
     try {
-      await storeNarration(cachePath, audio)
+      await storeNarration(cachePath, audio, narrationLibrary.storeId)
       return audioResponse(audio, 'MISS')
     } catch (error) {
       // A second server instance may have won the first-write race. If so,
       // the library is healthy and the saved recording can be reused now.
       try {
-        const cached = await findCachedNarration(cachePath)
+        const cached = await findCachedNarration(cachePath, narrationLibrary.storeId)
         if (cached) return cachedAudioRedirect(cached.url)
       } catch (lookupError) {
         console.error('TROTW narration-library recovery lookup failed.', lookupError)
