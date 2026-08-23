@@ -318,7 +318,7 @@ export function RodneyGame() {
           <div className="grid gap-5 sm:grid-cols-[minmax(0,1fr)_minmax(12rem,0.8fr)_auto] sm:items-start">
             <div>
               <p className="font-mono text-xs font-bold uppercase tracking-[0.22em] text-primary">Rodney’s pot</p>
-              <h2 id="rodney-game-heading" className="mt-2 flex min-h-20 flex-wrap items-baseline gap-x-3 font-display text-4xl font-bold text-accent sm:min-h-24 sm:text-5xl">
+              <h2 id="rodney-game-heading" className="mt-2 flex min-h-20 flex-wrap items-baseline gap-x-3 font-display text-[clamp(2rem,4vw,3rem)] font-bold text-accent sm:min-h-24">
                 <span className="whitespace-nowrap">{formatCoins(currentScoreTotalSilver)}</span>
               </h2>
             </div>
