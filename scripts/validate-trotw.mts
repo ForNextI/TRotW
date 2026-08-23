@@ -5,7 +5,7 @@ const ROOT = process.cwd()
 const FAN_NOTICE = 'The Reading of the Wardens is unofficial Fan Content permitted under the Fan Content Policy. Not approved/endorsed by Wizards. Portions of the materials used are property of Wizards of the Coast. ©Wizards of the Coast LLC.'
 
 function fail(message: string): never {
-  console.error(`\nTROTW 2.1.011 validation failed: ${message}`)
+  console.error(`\nTROTW 2.1.012 validation failed: ${message}`)
   process.exit(1)
 }
 
@@ -29,7 +29,7 @@ function walk(directory: string): string[] {
 }
 
 const packageJson = JSON.parse(text('package.json')) as { version?: string; scripts?: Record<string, string> }
-if (packageJson.version !== '2.1.11') fail('package.json is not version 2.1.11')
+if (packageJson.version !== '2.1.12') fail('package.json is not version 2.1.12')
 if (!packageJson.scripts?.['validate:version'] || !packageJson.scripts?.['validate:release']) fail('release validation scripts are missing')
 
 const layout = text('app/layout.tsx')
@@ -163,6 +163,8 @@ const speechRoute = text('app/api/read/speech/route.ts')
 for (const expected of ['findCachedNarration', 'storeNarration', 'X-TROTW-Narration-Cache']) {
   if (!speechRoute.includes(expected)) fail(`Read Aloud route is missing shared-cache behavior: ${expected}`)
 }
+if (!speechRoute.includes('cachedAudioResponse')) fail('cached narration is not being returned through the same-origin speech route')
+if (speechRoute.includes('cachedAudioRedirect')) fail('cached narration still redirects the browser directly to Blob')
 
 const serviceConfig = text('lib/site/service-config.ts')
 for (const expected of ['TROTW_OPENAI_API_KEY', 'OPENAI_API_KEY', 'KV_REST_API_URL', 'UPSTASH_REDIS_REST_URL']) {
@@ -213,5 +215,5 @@ for (const pattern of secretPatterns) {
   if (pattern.test(repositoryText)) fail('a credential-shaped secret appears to be committed in source')
 }
 
-console.log('TROTW 2.1.011 release validation passed.')
+console.log('TROTW 2.1.012 release validation passed.')
 console.log(`Validated ${catalog.length} published release units and ${imagePaths.length} referenced catalog/state images.`)

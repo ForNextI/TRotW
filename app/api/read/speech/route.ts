@@ -22,7 +22,7 @@ function speakingInstructions(voice: NarrationVoice, text: string) {
   return guide ? `${voiceDirection}\n\n${guide}` : voiceDirection
 }
 
-function audioResponse(audio: ArrayBuffer, cacheStatus: 'MISS' | 'BYPASS') {
+function audioResponse(audio: ArrayBuffer, cacheStatus: 'HIT' | 'MISS' | 'BYPASS') {
   return new Response(audio, {
     status: 200,
     headers: {
@@ -34,15 +34,13 @@ function audioResponse(audio: ArrayBuffer, cacheStatus: 'MISS' | 'BYPASS') {
   })
 }
 
-function cachedAudioRedirect(url: string) {
-  return new Response(null, {
-    status: 303,
-    headers: {
-      Location: url,
-      'Cache-Control': 'no-store',
-      'X-TROTW-Narration-Cache': 'HIT',
-    },
-  })
+async function cachedAudioResponse(url: string) {
+  const response = await fetch(url, { cache: 'no-store' })
+  if (!response.ok) {
+    throw new Error(`Cached narration fetch failed with status ${response.status}.`)
+  }
+  const audio = await response.arrayBuffer()
+  return audioResponse(audio, 'HIT')
 }
 
 export async function POST(request: Request) {
@@ -77,7 +75,7 @@ export async function POST(request: Request) {
   if (narrationLibrary.configured) {
     try {
       const cached = await findCachedNarration(cachePath, narrationLibrary.storeId)
-      if (cached) return cachedAudioRedirect(cached.url)
+      if (cached) return await cachedAudioResponse(cached.url)
     } catch (error) {
       console.error('TROTW narration-library lookup failed; generating directly.', error)
     }
@@ -124,7 +122,7 @@ export async function POST(request: Request) {
       // the library is healthy and the saved recording can be reused now.
       try {
         const cached = await findCachedNarration(cachePath, narrationLibrary.storeId)
-        if (cached) return cachedAudioRedirect(cached.url)
+        if (cached) return await cachedAudioResponse(cached.url)
       } catch (lookupError) {
         console.error('TROTW narration-library recovery lookup failed.', lookupError)
       }
