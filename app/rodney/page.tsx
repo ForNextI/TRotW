@@ -1,9 +1,10 @@
 import type { Metadata } from 'next'
-import { ArrowLeft, BookOpen, Coins, Dices, Trophy } from 'lucide-react'
+import { BookOpen, Coins, Dices, Trophy } from 'lucide-react'
 import Link from 'next/link'
 import { RodneyGame } from '@/components/rodney/rodney-game'
 import { OwnerUtilityLink } from '@/components/owner/owner-utility-link'
 import { SiteFooter } from '@/components/showcase/site-footer'
+import { TrotwoodHeader } from '@/components/showcase/trotwood-header'
 
 export const metadata: Metadata = {
   title: 'Rodney · The Shrine to Tymora',
@@ -13,18 +14,15 @@ export const metadata: Metadata = {
 export default function RodneyPage() {
   return (
     <div className="medieval-page medieval-page--rodney min-h-screen text-foreground">
+      <TrotwoodHeader active="rodney" />
       <main id="main-content" tabIndex={-1} className="px-5 py-12 sm:px-8 sm:py-16">
         <div className="medieval-page-panel mx-auto max-w-6xl rounded-3xl p-6 sm:p-10">
-          <div className="flex flex-wrap items-start justify-between gap-4">
-            <div>
-              <p className="font-mono text-xs font-bold uppercase tracking-[0.24em] text-primary">Rodney</p>
-              <h1 className="mt-3 font-display text-4xl font-bold tracking-tight sm:text-6xl">The Shrine to Tymora</h1>
-            </div>
-            <Link href="/" className="inline-flex min-h-10 items-center gap-2 rounded-xl border border-border px-4 text-sm font-bold text-muted-foreground transition hover:text-foreground"><ArrowLeft className="size-4" aria-hidden="true" />Read</Link>
-          </div>
+          <h1 className="font-display text-4xl font-bold tracking-tight sm:text-6xl">
+            The Shrine to Tymora
+          </h1>
 
           <p className="mt-5 max-w-4xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-            In the foyer of Winstone sits Rodney the Pegacorn, a ridiculous little Shrine to Tymora that escaped from <em>The Wardens of Waterdeep</em> and became playable here. Put one fictional silver piece into Rodney’s pot, roll the bones, and gamble on Tymora’s favor. Double ones win the pot. Double twos through fives advance Tymora’s Favor; six qualifying doubles also win the pot. Double sixes reset Tymora’s Favor and demand one extra silver piece before play continues.
+            In the foyer of Windstone sits Rodney the Pegacorn, a ridiculous little Shrine to Tymora that escaped from <em>The Wardens of Waterdeep</em> and became playable here. Put one fictional silver piece into Rodney’s pot, roll the bones, and gamble on Tymora’s favor. Double ones win the pot. Double twos through fives advance Tymora’s Favor; six qualifying doubles also win the pot. Double sixes reset Tymora’s Favor and demand one extra silver piece before play continues.
           </p>
 
           <div className="mt-5 max-w-4xl rounded-2xl border border-primary/30 bg-primary/5 px-5 py-4 text-sm leading-7 text-muted-foreground">

@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { BookOpenText, CalendarDays, Images, Info } from 'lucide-react'
 import Link from 'next/link'
 import { SiteFooter } from '@/components/showcase/site-footer'
+import { TrotwoodHeader } from '@/components/showcase/trotwood-header'
 import { OwnerUtilityLink } from '@/components/owner/owner-utility-link'
 import { ReadTableOfContents } from '@/components/read/read-table-of-contents'
 import { getReadBooks, getReadState, getReleaseCatalog } from '@/lib/read/releases'
@@ -23,40 +24,32 @@ export default async function ReadPage() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <TrotwoodHeader active="read" />
       <main id="main-content" tabIndex={-1}>
-        <section className="px-5 py-10 sm:px-8 sm:py-14">
-          <div className="mx-auto max-w-6xl">
-            <div className="mb-7 flex flex-wrap items-center justify-between gap-3">
-              <p className="font-mono text-xs font-bold uppercase tracking-[0.24em] text-primary">Read</p>
-              <nav className="flex items-center gap-2 text-sm font-bold" aria-label="The Reading of the Wardens">
-                <Link href="/" aria-current="page" className="rounded-xl border border-primary/45 bg-primary/10 px-4 py-2 text-primary">Read</Link>
-                <Link href="/rodney" className="rounded-xl border border-border px-4 py-2 text-muted-foreground transition hover:border-primary/45 hover:text-foreground">Rodney</Link>
-              </nav>
-            </div>
+        <section className="px-5 pb-8 pt-10 sm:px-8 sm:pb-10 sm:pt-14">
+          <div className="mx-auto max-w-7xl">
+            <h1 className="font-display text-[clamp(3.1rem,7.2vw,7.2rem)] font-bold leading-[0.9] tracking-[-0.035em] text-accent lg:whitespace-nowrap">
+              The Wardens of Waterdeep
+            </h1>
 
-            <div className="grid gap-8 lg:grid-cols-[minmax(0,0.88fr)_minmax(360px,1.12fr)] lg:items-center">
-              <div>
-                <h1 className="font-display text-5xl font-bold tracking-tight text-accent sm:text-7xl">The Wardens of Waterdeep</h1>
-                <p className="mt-4 max-w-3xl font-display text-2xl font-bold leading-snug text-foreground sm:text-3xl">
+            <div className="mt-8 grid border-y border-border py-1 md:grid-cols-2">
+              <div className="py-6 md:pr-8">
+                <p className="font-display text-2xl font-bold leading-snug text-foreground sm:text-3xl">
                   An epic fantasy adventure in the <span className="text-primary">Forgotten Realms</span>.
                 </p>
-                <p className="mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+                <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
                   No knowledge of the Forgotten Realms is required. Fans of the setting will find plenty to recognize.
                 </p>
-                <p className="mt-4 font-display text-xl font-semibold italic text-foreground">Adventures with AI</p>
-                <p className="mt-2 max-w-3xl text-sm leading-relaxed text-muted-foreground sm:text-base">A fantasy saga born from a D&amp;D 5.5e campaign played with an AI Game Master.</p>
               </div>
 
-              <figure className="overflow-hidden rounded-3xl border border-accent/35 bg-card p-2 shadow-2xl shadow-black/25">
-                <Image
-                  src="/images/wardens-hero.png"
-                  alt="Zhale, Tiny, XiuQing, and Alastra gathered around a table in the Yawning Portal"
-                  width={1536}
-                  height={1024}
-                  className="aspect-[3/2] h-auto w-full rounded-2xl object-cover"
-                  priority
-                />
-              </figure>
+              <div className="border-t border-border py-6 md:border-l md:border-t-0 md:pl-8">
+                <p className="font-display text-2xl font-bold leading-snug text-foreground sm:text-3xl">
+                  Adventures with AI
+                </p>
+                <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+                  A fantasy saga born from a D&amp;D 5.5e campaign played with an AI Game Master.
+                </p>
+              </div>
             </div>
           </div>
         </section>

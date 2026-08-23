@@ -5,7 +5,7 @@ const ROOT = process.cwd()
 const FAN_NOTICE = 'The Reading of the Wardens is unofficial Fan Content permitted under the Fan Content Policy. Not approved/endorsed by Wizards. Portions of the materials used are property of Wizards of the Coast. ©Wizards of the Coast LLC.'
 
 function fail(message: string): never {
-  console.error(`\nTROTW 2.0.02 validation failed: ${message}`)
+  console.error(`\nTROTW 2.1 validation failed: ${message}`)
   process.exit(1)
 }
 
@@ -29,7 +29,7 @@ function walk(directory: string): string[] {
 }
 
 const packageJson = JSON.parse(text('package.json')) as { version?: string; scripts?: Record<string, string> }
-if (packageJson.version !== '2.0.2') fail('package.json is not version 2.0.2')
+if (packageJson.version !== '2.1.0') fail('package.json is not version 2.1.0')
 if (!packageJson.scripts?.['validate:version'] || !packageJson.scripts?.['validate:release']) fail('release validation scripts are missing')
 
 const layout = text('app/layout.tsx')
@@ -58,6 +58,7 @@ for (const required of [
   'app/api/owner-access/route.ts',
   'app/api/owner/service-status/route.ts',
   'components/owner/owner-service-status.tsx',
+  'components/showcase/trotwood-header.tsx',
   'lib/site/service-config.ts',
   'lib/read/narration-cache.ts',
   'app/read/toril/[releaseId]/page.tsx',
@@ -173,14 +174,20 @@ for (const expected of ['Novel age gate', 'Read Aloud', 'Narration library', 'Re
 }
 
 const readLanding = text('app/read/page.tsx')
-for (const expected of ['Forgotten Realms', 'No knowledge of the Forgotten Realms is required', 'Read Book One', '/rodney']) {
+for (const expected of ['Forgotten Realms', 'No knowledge of the Forgotten Realms is required', 'Read Book One', 'TrotwoodHeader active="read"']) {
   if (!readLanding.includes(expected)) fail(`Read landing is missing 2.0 content: ${expected}`)
 }
 if (readLanding.includes('<ReaderPoll')) fail('Reader Poll still appears on the landing page')
 if (readLanding.includes('Current Bonus Image') || readLanding.includes('Read the Adventure Now')) fail('legacy landing-page waypoint/CTA remains')
+if (readLanding.includes('src="/images/wardens-hero.png"')) fail('redundant Read hero image returned in 2.1')
+const trotwoodHeader = text('components/showcase/trotwood-header.tsx')
+for (const expected of ['Trotwood', 'Read', 'Rodney', 'href="/rodney"', 'sticky top-0']) {
+  if (!trotwoodHeader.includes(expected)) fail(`Trotwood header is missing 2.1 behavior: ${expected}`)
+}
 const releasePage = text('app/read/toril/[releaseId]/page.tsx')
 if (!releasePage.includes("release.canonicalId === '1.01' ? <ReaderPoll />")) fail('Reader Poll is not limited to the Yawning Portal release')
 const rodneyPage = text('app/rodney/page.tsx')
+if (!rodneyPage.includes('TrotwoodHeader active="rodney"')) fail('Rodney is missing the shared Trotwood header')
 for (const expected of ['fictional gambling', 'No real money is wagered', 'Wager one silver piece', 'Win Rodney’s pot']) {
   if (!rodneyPage.includes(expected)) fail(`Rodney 2.0 language is missing: ${expected}`)
 }
@@ -199,5 +206,5 @@ for (const pattern of secretPatterns) {
   if (pattern.test(repositoryText)) fail('a credential-shaped secret appears to be committed in source')
 }
 
-console.log('TROTW 2.0.02 release validation passed.')
+console.log('TROTW 2.1 release validation passed.')
 console.log(`Validated ${catalog.length} published release units and ${imagePaths.length} referenced catalog/state images.`)
