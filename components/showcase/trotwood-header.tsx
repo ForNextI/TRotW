@@ -6,13 +6,8 @@ type TrotwoodHeaderProps = {
   active?: 'read' | 'rodney'
 }
 
-function navClass(active: boolean) {
-  return [
-    'inline-flex min-h-10 items-center justify-center rounded-xl border px-3 text-sm font-bold transition sm:px-4',
-    active
-      ? 'border-primary/50 bg-primary/10 text-primary'
-      : 'border-transparent text-muted-foreground hover:border-border hover:text-foreground',
-  ].join(' ')
+function navClass() {
+  return 'inline-flex min-h-10 items-center px-1 text-sm font-bold text-muted-foreground transition hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring'
 }
 
 function NavDiamond() {
@@ -37,14 +32,14 @@ export function TrotwoodHeader({ active }: TrotwoodHeaderProps) {
           <span className="text-base sm:text-xl">Trotwood</span>
         </Link>
 
-        <div className="ml-auto flex shrink-0 items-center gap-2 sm:gap-3">
+        <div className="ml-auto flex shrink-0 items-center gap-3 sm:gap-4">
           <NavDiamond />
 
-          <nav className="flex items-center gap-2 sm:gap-3" aria-label="Trotwood">
+          <nav className="flex items-center gap-3 sm:gap-4" aria-label="Trotwood">
             <Link
               href="/"
               aria-current={active === 'read' ? 'page' : undefined}
-              className={navClass(active === 'read')}
+              className={navClass()}
             >
               Read
             </Link>
@@ -54,7 +49,7 @@ export function TrotwoodHeader({ active }: TrotwoodHeaderProps) {
             <Link
               href="/rodney"
               aria-current={active === 'rodney' ? 'page' : undefined}
-              className={navClass(active === 'rodney')}
+              className={navClass()}
             >
               Rodney
             </Link>

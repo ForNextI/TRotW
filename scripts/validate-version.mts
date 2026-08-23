@@ -2,7 +2,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 
 const ROOT = process.cwd()
-const EXPECTED = '2.1.7'
+const EXPECTED = '2.1.8'
 
 function fail(message: string): never {
   console.error(`\nTROTW version validation failed: ${message}`)
@@ -14,6 +14,6 @@ if (packageJson.name !== 'trotw') fail(`package name is ${JSON.stringify(package
 if (packageJson.version !== EXPECTED) fail(`package.json is ${JSON.stringify(packageJson.version)}, expected ${EXPECTED}`)
 
 const versionSource = fs.readFileSync(path.join(ROOT, 'lib/site/version.ts'), 'utf8')
-if (!versionSource.includes(`TROTW_VERSION = '${EXPECTED}'`)) fail('lib/site/version.ts does not expose TROTW_VERSION 2.1.7')
+if (!versionSource.includes(`TROTW_VERSION = '${EXPECTED}'`)) fail('lib/site/version.ts does not expose TROTW_VERSION 2.1.8')
 
 console.log(`TROTW version validation passed: ${EXPECTED}`)
