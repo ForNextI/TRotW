@@ -34,6 +34,10 @@ export async function GET(request: Request) {
         configured: poll.configured,
         usingLegacyVariables: poll.usingLegacyVariables,
       },
+      rodney: {
+        stateConfigured: Boolean(process.env.TROTW_RODNEY_STATE_SECRET?.trim() || process.env.RODNEY_STATE_SECRET?.trim() || process.env.TROTW_NOVEL_GATE_SECRET?.trim()),
+        ledgerConfigured: poll.configured,
+      },
       publisher: {
         ownerCodeConfigured: Boolean(process.env.TROTW_OWNER_CODE?.trim()),
         publisherCodeConfigured: Boolean(process.env.TROTW_PUBLISHER_CODE?.trim()),

@@ -1,2 +1,2 @@
-export const TROTW_VERSION = '1.2.1'
-export const TROTW_RELEASE_LABEL = `TROTW ${TROTW_VERSION}`
+export const TROTW_VERSION = '2.0.0'
+export const TROTW_RELEASE_LABEL = 'TROTW 2.0'

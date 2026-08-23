@@ -430,6 +430,7 @@ html[data-reduced-motion="true"] *::after {
 }
 
 .medieval-page--read { background-image: url('/images/medieval/read.webp'); }
+.medieval-page--rodney { background-image: url('/images/medieval/rodney.webp'); }
 
 .medieval-page > header,
 .medieval-page > footer {
@@ -545,6 +546,189 @@ body:has(.medieval-page)::-webkit-scrollbar-thumb:hover,
 .medieval-page *::-webkit-scrollbar-thumb:hover {
   background: #aaa59d;
 }
+
+/* Rodney's static knucklebones: the bone image stays still while historical pips buzz in the flat centers. */
+.rodney-dice-stage {
+  isolation: isolate;
+}
+
+.rodney-bones {
+  position: relative;
+  width: min(100%, 42rem);
+  margin-inline: auto;
+}
+
+.rodney-bone-window {
+  position: absolute;
+  top: 50.5%;
+  width: 18%;
+  height: 58%;
+  overflow: hidden;
+  transform: translate(-50%, -50%);
+  border-radius: 46% 44% 48% 43%;
+}
+
+.rodney-bone-window-one { left: 22.66%; }
+.rodney-bone-window-two { left: 76.86%; }
+
+.rodney-pip-face {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+.rodney-historic-pip {
+  position: absolute;
+  width: 17%;
+  aspect-ratio: 1;
+  border-radius: 999px;
+  transform: translate(-50%, -50%);
+  background:
+    radial-gradient(circle,
+      #20140e 0 22%,
+      rgba(244, 231, 199, 0.96) 24% 45%,
+      #3c2417 47% 66%,
+      rgba(57, 34, 21, 0.12) 68% 73%,
+      transparent 75%);
+  filter: drop-shadow(0 1px 0 rgba(255, 250, 231, 0.35));
+}
+
+.pip-top-left { left: 23%; top: 23%; }
+.pip-top-right { left: 77%; top: 23%; }
+.pip-middle-left { left: 23%; top: 50%; }
+.pip-center { left: 50%; top: 50%; }
+.pip-middle-right { left: 77%; top: 50%; }
+.pip-bottom-left { left: 23%; top: 77%; }
+.pip-bottom-right { left: 77%; top: 77%; }
+
+.rodney-pip-buzz {
+  position: absolute;
+  left: 0;
+  top: -500%;
+  width: 100%;
+  height: 600%;
+  opacity: 0.9;
+  filter: blur(0.65px);
+  will-change: transform;
+  animation: rodney-pip-buzz 105ms linear infinite;
+}
+
+.rodney-pip-buzz-two {
+  animation-duration: 123ms;
+  animation-delay: -41ms;
+}
+
+.rodney-pip-buzz-face {
+  height: calc(100% / 6);
+}
+
+.rodney-pip-buzz-face:nth-child(1) { top: 0; }
+.rodney-pip-buzz-face:nth-child(2) { top: calc(100% / 6); }
+.rodney-pip-buzz-face:nth-child(3) { top: calc(200% / 6); }
+.rodney-pip-buzz-face:nth-child(4) { top: calc(300% / 6); }
+.rodney-pip-buzz-face:nth-child(5) { top: calc(400% / 6); }
+.rodney-pip-buzz-face:nth-child(6) { top: calc(500% / 6); }
+
+@keyframes rodney-pip-buzz {
+  from { transform: translateY(0); }
+  to { transform: translateY(calc(500% / 6)); }
+}
+
+/* Rodney fortune lamps: dark at rest, green until the champion's name is recorded. */
+.rodney-lamp-off,
+.rodney-lamp-flash {
+  position: absolute;
+  top: 1.1%;
+  width: 7.2%;
+  height: 9.5%;
+  pointer-events: none;
+  border-radius: 999px;
+}
+
+.rodney-lamp-left { left: 20.4%; }
+.rodney-lamp-right { right: 20.4%; }
+
+.rodney-lamp-off {
+  background: radial-gradient(ellipse at center, rgba(51, 58, 36, 0.98) 0 18%, rgba(42, 43, 27, 0.95) 19% 35%, rgba(41, 34, 19, 0.72) 45%, rgba(28, 24, 15, 0) 72%);
+  mix-blend-mode: multiply;
+}
+
+.rodney-lamp-flash {
+  opacity: 0;
+  background: radial-gradient(ellipse at center, rgba(232, 255, 230, 1) 0 12%, rgba(91, 255, 112, 0.98) 19%, rgba(29, 239, 72, 0.72) 38%, rgba(21, 226, 63, 0) 72%);
+  filter: blur(0.4px);
+}
+
+.rodney-lamp-flash.is-flashing {
+  animation: rodney-lamp-fortune 2.4s steps(1, end) infinite;
+}
+
+.rodney-champion-celebration {
+  animation: rodney-champion-pop 1.7s ease-out both;
+}
+
+.rodney-winner-word {
+  position: absolute;
+  z-index: 8;
+  isolation: isolate;
+  left: 50%;
+  bottom: 8%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  color: #e3ad40;
+  font-size: clamp(2.4rem, 8vw, 6.4rem);
+  font-weight: 900;
+  line-height: 0.9;
+  -webkit-text-stroke: 3px #120d08;
+  paint-order: stroke fill;
+  filter: drop-shadow(0 0 16px rgba(0, 0, 0, 0.88));
+  animation: rodney-winner-reveal 7s ease-out both;
+}
+
+/* A second copy behind the gold word supplies a true outer white keyline,
+   leaving the black stroke clearly visible between white and gold. */
+.rodney-winner-word::before {
+  content: attr(data-text);
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  color: transparent;
+  -webkit-text-stroke: 7px rgba(255, 250, 236, 0.96);
+  paint-order: stroke fill;
+}
+
+@keyframes rodney-winner-reveal {
+  0% { opacity: 0; transform: translateX(-50%) scale(0.82); }
+  4%, 100% { opacity: 1; transform: translateX(-50%) scale(1); }
+}
+
+@keyframes rodney-lamp-fortune {
+  0%, 18%, 50%, 68%, 100% { opacity: 0; }
+  7%, 57% { opacity: 1; }
+}
+
+@keyframes rodney-champion-pop {
+  0% { transform: scale(1); text-shadow: none; }
+  18% { transform: scale(1.035); text-shadow: 0 0 24px color-mix(in oklab, var(--primary) 70%, transparent); }
+  100% { transform: scale(1); text-shadow: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:not([data-motion-preference="full"]) .rodney-pip-buzz {
+    top: 0;
+    height: 100%;
+    animation: none;
+    opacity: 0.35;
+  }
+  html:not([data-motion-preference="full"]) .rodney-pip-buzz-face:not(:first-child) { display: none; }
+  html:not([data-motion-preference="full"]) .rodney-lamp-flash.is-flashing {
+    animation: none;
+    opacity: 0.86;
+  }
+  html:not([data-motion-preference="full"]) .rodney-champion-celebration { animation: none; }
+  html:not([data-motion-preference="full"]) .rodney-winner-word { animation: none; opacity: 1; }
+}
+
 
 /* Casual image-copy deterrence. This cannot prevent screenshots or developer-tool access. */
 img,

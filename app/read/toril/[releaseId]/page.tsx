@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation'
 import { Mistinarperadnacles } from '@/components/read/mistinarperadnacles'
 import { ReadAloudControl, ReadAloudReleaseRegistrar } from '@/components/read/read-aloud'
 import { ReadTableOfContents } from '@/components/read/read-table-of-contents'
+import { ReaderPoll } from '@/components/read/reader-poll'
 import { getReadBooks, getReadRelease, getReleaseCatalog, releaseLabel } from '@/lib/read/releases'
 
 interface ReleasePageProps {
@@ -97,7 +98,9 @@ export default async function ReleasePage({ params }: ReleasePageProps) {
 
             <ReadAloudControl location="bottom" />
 
-            <nav className="flex items-center justify-between gap-4 border-t border-[#7b5b2f]/40 pt-6" aria-label="Reading navigation">
+            {release.canonicalId === '1.01' ? <ReaderPoll /> : null}
+
+            <nav className="mt-8 flex items-center justify-between gap-4 border-t border-[#7b5b2f]/40 pt-6" aria-label="Reading navigation">
               {previous ? (
                 <Link href={`/read/toril/${previous.id}`} className="inline-flex items-center gap-2 rounded-xl border border-[#7b5b2f]/35 px-4 py-2 text-sm font-bold hover:bg-[#d7bd86]/55">
                   <ChevronLeft className="size-4" aria-hidden="true" />Previous

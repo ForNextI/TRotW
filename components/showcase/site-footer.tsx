@@ -16,6 +16,7 @@ export function SiteFooter({ utility }: { utility?: ReactNode } = {}) {
             <MotionSettingsControl />
             <nav className="flex flex-wrap items-center gap-x-4 gap-y-2" aria-label="Site information">
               <Link className="transition-colors hover:text-foreground" href="/read/about">About the Story</Link>
+              <Link className="transition-colors hover:text-foreground" href="/rodney">Rodney</Link>
               <Link className="transition-colors hover:text-foreground" href="/accessibility">Accessibility</Link>
               <Link className="transition-colors hover:text-foreground" href="/legal">Legal &amp; Fan Content</Link>
               <Link className="font-bold transition-colors hover:text-foreground" href="/">Home</Link>

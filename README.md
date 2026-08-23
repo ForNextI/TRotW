@@ -1,6 +1,10 @@
 # The Reading of the Wardens
 
-**TROTW 1.2.1** is the standalone home of *The Wardens of Waterdeep* and the Read experience originally published as part of WardensPC.
+**Build 2.0**
+
+TROTW 2.0 completes the standalone reading-site split: the Read landing page is simplified around the Forgotten Realms novel, the unbranded starting-party tavern image replaces WardensPC branding, Book One becomes the primary reading entrance, the reader poll moves to Release 1.1 (Four at the Portal), the latest bonus image moves to the bottom, and Rodney joins the site with his original fictional-gambling language and shared Roll of Fortune. No real money is wagered or won in Rodney.
+
+**TROTW 2.0** is the standalone home of *The Wardens of Waterdeep*, its reader experience, and Rodney.
 
 - Production domain: `https://thereadingofthewardens.com`
 - GitHub repository: `ForNextI/TrotW`
@@ -21,6 +25,7 @@ Public reader routes include:
 - `/read/toril`
 - `/read/toril/[releaseId]`
 - `/read/pix/[bookSlug]`
+- `/rodney`
 - `/legal`
 - `/accessibility`
 
@@ -29,6 +34,7 @@ Private owner tools include:
 - `/owner`
 - `/read/publisher`
 - `/read/poll-results`
+- `/rodney/admin`
 
 ## Deployment
 
@@ -59,12 +65,16 @@ For Read Aloud:
 - `TROTW_OPENAI_TTS_MODEL` — optional; defaults to `gpt-4o-mini-tts`
 - `BLOB_READ_WRITE_TOKEN` — added automatically when the public Vercel Blob narration store is connected to this project
 
-For the Reader Poll:
+For the Reader Poll and Rodney’s shared Roll of Fortune:
 
 - `TROTW_UPSTASH_REDIS_REST_URL`
 - `TROTW_UPSTASH_REDIS_REST_TOKEN`
 
-TROTW 1.2.1 still recognizes the generic `OPENAI_*` and standard `UPSTASH_REDIS_*` names as migration fallbacks, but new Vercel configuration should use the TROTW-prefixed names so this site remains visibly independent from WardensPC.
+For Rodney state signing:
+
+- `TROTW_RODNEY_STATE_SECRET` — recommended separate signing secret; TROTW can fall back to the existing novel-gate secret during migration
+
+TROTW 2.0 still recognizes the generic `OPENAI_*` and standard `UPSTASH_REDIS_*` names as migration fallbacks, but new Vercel configuration should use the TROTW-prefixed names so this site remains visibly independent from WardensPC.
 
 For rights-holder contact display:
 
@@ -95,6 +105,7 @@ Version 1.1 adds an owner-only service-status panel at `/owner`. After Owner Acc
 - novel age gate
 - Read Aloud
 - Reader Poll
+- Rodney state signing and Roll of Fortune
 - Publisher / GitHub
 - optional rights-holder contact
 
@@ -105,16 +116,19 @@ Recommended Vercel setup order:
 1. `TROTW_NOVEL_GATE_SECRET`
 2. `TROTW_OPENAI_API_KEY` (and optionally `TROTW_OPENAI_TTS_MODEL`)
 3. `TROTW_UPSTASH_REDIS_REST_URL` + `TROTW_UPSTASH_REDIS_REST_TOKEN`
-4. `TROTW_OWNER_CODE`
-5. `TROTW_PUBLISHER_CODE`
-6. `TROTW_GITHUB_TOKEN`
-7. `TROTW_GITHUB_REPOSITORY=ForNextI/TrotW`
-8. `TROTW_GITHUB_BRANCH=main`
-9. `TROTW_PUBLICATION_TIME_ZONE=America/Los_Angeles`
+4. `TROTW_RODNEY_STATE_SECRET`
+5. `TROTW_OWNER_CODE`
+6. `TROTW_PUBLISHER_CODE`
+7. `TROTW_GITHUB_TOKEN`
+8. `TROTW_GITHUB_REPOSITORY=ForNextI/TrotW`
+9. `TROTW_GITHUB_BRANCH=main`
+10. `TROTW_PUBLICATION_TIME_ZONE=America/Los_Angeles`
 
-After changing Vercel environment variables, redeploy before testing the service. The preferred QA sequence is age gate → Read Aloud → poll → Owner Access → Publisher preview → harmless Publisher commit/deployment test.
+After changing Vercel environment variables, redeploy before testing the service. The preferred QA sequence is age gate → Read Aloud → poll → Rodney → Owner Access → Publisher preview → harmless Publisher commit/deployment test.
 
-## Reader Poll migration note
+## Reader Poll and Rodney storage
+
+The one-time introductory Reader Poll is shown inline at the bottom of Release 1.1, *Four at the Portal*. It is no longer displayed on the Read landing page.
 
 TROTW intentionally retains the existing private Redis key names used by the WardensPC Read poll. These key names are implementation details and are not WardensPC links or runtime dependencies.
 
@@ -136,14 +150,14 @@ The Wizards Fan Content notice appears in the global footer and on `/legal`:
 
 The standalone Legal page is intentionally scoped to this novel site rather than copying WardensPC's unrelated AIGM, Shape, Chat, advertising, or other product terms.
 
-## What was deliberately removed from the WardensPC source
+## What remains deliberately outside TROTW
 
-The carve-out does not include:
+The standalone reading site does not include:
 
 - AIGM / Play
 - Shape / ProseMaker
 - Chat
-- Rodney
+- Links directory
 - WardensPC advertising and conversion tracking
 - Google Tag Manager, Meta Pixel, or Reddit Pixel plumbing
 - WardensPC API-usage analytics
@@ -175,18 +189,16 @@ git diff --check
 git status --short
 ```
 
-For TROTW 1.2.1 and later updates:
+For TROTW 2.0:
 
 ```bash
 git add -A
 git diff --cached --check
 git status --short
-git commit -m "Build 1.2.1"
+git commit -m "Build 2.0"
 git push
 ```
 
-Do not attach `thereadingofthewardens.com` until the Vercel deployment has passed reader and Publisher QA on the Vercel URL.
-
 ## Relationship to WardensPC
 
-This repository is Phase 1 of the separation. WardensPC should remain unchanged while TROTW is deployed and tested. Removal of Read from WardensPC is a separate later WardensPC release after the standalone site is proven.
+TROTW 2.0 completes the reading-side split. The novel and Rodney live here as a focused, ad-free fan experience. Play and Shape belong to RPG Your Way. WardensPC can now retire or signpost its old Read and Rodney entry points separately without TROTW depending on the legacy application.

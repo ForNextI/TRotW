@@ -10,10 +10,10 @@ export const metadata: Metadata = {
     default: 'The Reading of the Wardens',
     template: '%s | The Reading of the Wardens',
   },
-  description: 'The deluxe web edition of The Wardens of Waterdeep, a fantasy saga born from a Dungeons & Dragons campaign played with an AI Game Master.',
+  description: 'The deluxe web edition of The Wardens of Waterdeep, an epic fantasy adventure in the Forgotten Realms born from a Dungeons & Dragons campaign played with an AI Game Master.',
   openGraph: {
     title: 'The Reading of the Wardens',
-    description: 'Read The Wardens of Waterdeep, with bonus art, galleries, bookmarks, and optional Read Aloud.',
+    description: 'Read The Wardens of Waterdeep, an epic fantasy adventure in the Forgotten Realms, with bonus art, galleries, bookmarks, and optional Read Aloud.',
     url: 'https://thereadingofthewardens.com',
     siteName: 'The Reading of the Wardens',
     type: 'website',

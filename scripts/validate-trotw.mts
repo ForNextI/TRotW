@@ -5,7 +5,7 @@ const ROOT = process.cwd()
 const FAN_NOTICE = 'The Reading of the Wardens is unofficial Fan Content permitted under the Fan Content Policy. Not approved/endorsed by Wizards. Portions of the materials used are property of Wizards of the Coast. ©Wizards of the Coast LLC.'
 
 function fail(message: string): never {
-  console.error(`\nTROTW 1.2.1 validation failed: ${message}`)
+  console.error(`\nTROTW 2.0 validation failed: ${message}`)
   process.exit(1)
 }
 
@@ -29,7 +29,7 @@ function walk(directory: string): string[] {
 }
 
 const packageJson = JSON.parse(text('package.json')) as { version?: string; scripts?: Record<string, string> }
-if (packageJson.version !== '1.2.1') fail('package.json is not version 1.2.1')
+if (packageJson.version !== '2.0.0') fail('package.json is not version 2.0.0')
 if (!packageJson.scripts?.['validate:version'] || !packageJson.scripts?.['validate:release']) fail('release validation scripts are missing')
 
 const layout = text('app/layout.tsx')
@@ -71,6 +71,15 @@ for (const required of [
   'content/read/read-state.json',
   'content/read/books.json',
   'public/images/wardens-hero.png',
+  'app/rodney/page.tsx',
+  'components/rodney/rodney-game.tsx',
+  'app/api/rodney/play/route.ts',
+  'app/api/rodney/ledger/route.ts',
+  'lib/rodney/state.ts',
+  'lib/rodney/ledger.ts',
+  'public/images/rodney-shrine.webp',
+  'public/images/rodney-bones.png',
+  'public/images/medieval/rodney.webp',
 ]) exists(required)
 
 const publisherRoute = text('app/api/read/publisher/route.ts')
@@ -109,7 +118,7 @@ for (const relative of sourceFiles) {
 }
 
 const publisherSources = [publisherRoute, githubPublisher, text('lib/read/publisher.ts')].join('\n')
-if (/rodney/i.test(publisherSources)) fail('Publisher still contains the former Rodney coupling')
+if (/rodney/i.test(publisherSources)) fail('Publisher must remain independent of Rodney')
 
 const catalog = JSON.parse(text('content/read/catalog.json')) as Array<{ id?: string; contentFile?: string }>
 if (!Array.isArray(catalog) || catalog.length === 0) fail('release catalog is empty')
@@ -130,7 +139,7 @@ for (const imagePath of imagePaths) {
 }
 
 const envExample = text('.env.example')
-for (const expected of ['TROTW_OWNER_CODE', 'TROTW_PUBLISHER_CODE', 'TROTW_NOVEL_GATE_SECRET', 'TROTW_GITHUB_TOKEN', 'TROTW_OPENAI_API_KEY', 'TROTW_OPENAI_TTS_MODEL', 'BLOB_READ_WRITE_TOKEN', 'TROTW_UPSTASH_REDIS_REST_URL', 'TROTW_UPSTASH_REDIS_REST_TOKEN']) {
+for (const expected of ['TROTW_OWNER_CODE', 'TROTW_PUBLISHER_CODE', 'TROTW_NOVEL_GATE_SECRET', 'TROTW_RODNEY_STATE_SECRET', 'TROTW_GITHUB_TOKEN', 'TROTW_OPENAI_API_KEY', 'TROTW_OPENAI_TTS_MODEL', 'BLOB_READ_WRITE_TOKEN', 'TROTW_UPSTASH_REDIS_REST_URL', 'TROTW_UPSTASH_REDIS_REST_TOKEN']) {
   if (!envExample.includes(`${expected}=`)) fail(`.env.example is missing ${expected}`)
 }
 
@@ -163,6 +172,23 @@ for (const expected of ['Novel age gate', 'Read Aloud', 'Narration library', 'Re
   if (!ownerServiceStatus.includes(expected)) fail(`owner service-status panel is missing ${expected}`)
 }
 
+const readLanding = text('app/read/page.tsx')
+for (const expected of ['Forgotten Realms', 'No knowledge of the Forgotten Realms is required', 'Read Book One', '/rodney']) {
+  if (!readLanding.includes(expected)) fail(`Read landing is missing 2.0 content: ${expected}`)
+}
+if (readLanding.includes('<ReaderPoll')) fail('Reader Poll still appears on the landing page')
+if (readLanding.includes('Current Bonus Image') || readLanding.includes('Read the Adventure Now')) fail('legacy landing-page waypoint/CTA remains')
+const releasePage = text('app/read/toril/[releaseId]/page.tsx')
+if (!releasePage.includes("release.canonicalId === '1.01' ? <ReaderPoll />")) fail('Reader Poll is not limited to the Yawning Portal release')
+const rodneyPage = text('app/rodney/page.tsx')
+for (const expected of ['fictional gambling', 'No real money is wagered', 'Wager one silver piece', 'Win Rodney’s pot']) {
+  if (!rodneyPage.includes(expected)) fail(`Rodney 2.0 language is missing: ${expected}`)
+}
+const rodneyPlay = text('app/api/rodney/play/route.ts')
+if (!rodneyPlay.includes("@/lib/site/rate-limit")) fail('Rodney still depends on the retired WPC AIGM rate limiter')
+const rodneyLedger = text('lib/rodney/ledger.ts')
+if (!rodneyLedger.includes("@/lib/site/poll-store")) fail('Rodney ledger is not using the standalone TROTW Redis service')
+
 const repositoryText = sourceFiles.map((relative) => text(relative)).join('\n')
 const secretPatterns = [
   /sk-[A-Za-z0-9_-]{20,}/,
@@ -173,5 +199,5 @@ for (const pattern of secretPatterns) {
   if (pattern.test(repositoryText)) fail('a credential-shaped secret appears to be committed in source')
 }
 
-console.log('TROTW 1.2.1 release validation passed.')
+console.log('TROTW 2.0 release validation passed.')
 console.log(`Validated ${catalog.length} published release units and ${imagePaths.length} referenced catalog/state images.`)

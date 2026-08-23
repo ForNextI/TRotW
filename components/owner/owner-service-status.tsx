@@ -10,6 +10,7 @@ type StatusPayload = {
     readAloud?: { configured?: boolean; model?: string; usingLegacyVariable?: boolean }
     narrationLibrary?: { configured?: boolean }
     readerPoll?: { configured?: boolean; usingLegacyVariables?: boolean }
+    rodney?: { stateConfigured?: boolean; ledgerConfigured?: boolean }
     publisher?: {
       ownerCodeConfigured?: boolean
       publisherCodeConfigured?: boolean
@@ -101,6 +102,11 @@ export function OwnerServiceStatus() {
               label="Reader Poll"
               configured={Boolean(services?.readerPoll?.configured)}
               detail={services?.readerPoll?.usingLegacyVariables ? 'Using legacy UPSTASH_* fallback variables.' : undefined}
+            />
+            <StatusRow
+              label="Rodney"
+              configured={Boolean(services?.rodney?.stateConfigured && services?.rodney?.ledgerConfigured)}
+              detail={`State signing: ${services?.rodney?.stateConfigured ? 'ready' : 'needs configuration'} · Roll of Fortune: ${services?.rodney?.ledgerConfigured ? 'connected' : 'needs Redis'}`}
             />
             <StatusRow
               label="Publisher"
