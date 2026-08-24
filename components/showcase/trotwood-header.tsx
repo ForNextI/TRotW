@@ -1,4 +1,4 @@
-import { BookOpenText } from 'lucide-react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { FullscreenToggle } from '@/components/accessibility/fullscreen-toggle'
 import { Mistinarperadnacles } from '@/components/read/mistinarperadnacles'
@@ -8,11 +8,8 @@ type TrotwoodHeaderProps = {
   showMistControls?: boolean
 }
 
-function navClass(prominent = false) {
-  return [
-    'inline-flex min-h-10 items-center px-1 text-sm font-bold transition hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
-    prominent ? 'text-foreground' : 'text-muted-foreground',
-  ].join(' ')
+function navClass() {
+  return 'inline-flex min-h-10 items-center px-1 text-sm font-bold text-muted-foreground transition hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring'
 }
 
 function NavDiamond() {
@@ -24,11 +21,25 @@ function NavDiamond() {
   )
 }
 
+function SupportButton() {
+  return (
+    <a
+      href="https://ko-fi.com/wardenspc"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="inline-flex min-h-9 items-center rounded-xl border border-accent/70 bg-background/70 px-3 text-sm font-bold text-accent transition hover:border-primary hover:bg-accent/10 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      aria-label="Support The Reading of the Wardens on Ko-fi (opens in a new tab)"
+    >
+      Support
+    </a>
+  )
+}
+
 const standardLinks = [
-  { href: '/read/toril', label: 'Read', active: 'read' as const, prominent: true },
-  { href: '/rodney', label: 'Rodney', active: 'rodney' as const, prominent: true },
-  { href: '/play', label: 'Play', active: 'play' as const, prominent: false },
-  { href: '/shape', label: 'Shape', active: 'shape' as const, prominent: false },
+  { href: '/play', label: 'Play', active: 'play' as const },
+  { href: '/shape', label: 'Shape', active: 'shape' as const },
+  { href: '/read/toril', label: 'Read', active: 'read' as const },
+  { href: '/rodney', label: 'Rodney', active: 'rodney' as const },
 ]
 
 function TrotwoodBrand() {
@@ -36,10 +47,10 @@ function TrotwoodBrand() {
     <Link
       href="/"
       className="inline-flex min-h-10 shrink-0 items-center gap-2 rounded-lg font-display font-bold tracking-wide text-accent transition hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-      aria-label="Trotwood home"
+      aria-label="The Reading of the Wardens home"
     >
-      <BookOpenText className="size-5 shrink-0" aria-hidden="true" />
-      <span className="text-base sm:text-xl">Trotwood</span>
+      <Image src="/images/wardens-sigil-64.png" alt="" width={20} height={20} className="size-5 shrink-0" aria-hidden="true" />
+      <span className="text-base sm:text-xl">TRotW</span>
     </Link>
   )
 }
@@ -50,7 +61,7 @@ export function TrotwoodHeader({ active, showMistControls = false }: TrotwoodHea
   if (showMistControls) {
     return (
       <header className="sticky top-0 z-40 border-b border-border/80 bg-background/90 shadow-[0_8px_28px_rgba(0,0,0,0.22)] backdrop-blur-md">
-        <div className="mx-auto grid min-h-14 max-w-7xl grid-cols-[auto_1fr] items-center gap-x-3 gap-y-1 px-3 py-1.5 sm:px-8 sm:py-2 md:grid-cols-[auto_minmax(0,1fr)_auto]">
+        <div className="mx-auto grid min-h-14 max-w-7xl grid-cols-[auto_1fr] items-center gap-x-3 gap-y-2 px-3 py-2 sm:px-8 md:grid-cols-[auto_minmax(0,1fr)_auto]">
           <div className="col-start-1 row-start-1">
             <TrotwoodBrand />
           </div>
@@ -62,7 +73,7 @@ export function TrotwoodHeader({ active, showMistControls = false }: TrotwoodHea
           <div className="col-start-2 row-start-1 ml-auto flex shrink-0 items-center gap-2 sm:gap-3 md:col-start-3">
             <NavDiamond />
 
-            <nav className="flex items-center gap-2 sm:gap-3" aria-label="Trotwood">
+            <nav className="flex items-center gap-2 sm:gap-3" aria-label="The Reading of the Wardens">
               <Link
                 href="/read/toril"
                 aria-current={active === 'read' ? 'page' : undefined}
@@ -80,6 +91,10 @@ export function TrotwoodHeader({ active, showMistControls = false }: TrotwoodHea
               >
                 Rodney
               </Link>
+
+              <NavDiamond />
+
+              <SupportButton />
             </nav>
 
             <NavDiamond />
@@ -103,19 +118,21 @@ export function TrotwoodHeader({ active, showMistControls = false }: TrotwoodHea
         </div>
 
         <div className="col-span-2 row-start-2 flex min-w-0 items-center justify-center pt-1 md:col-span-1 md:col-start-2 md:row-start-1 md:justify-end md:pt-0">
-          <nav className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1" aria-label="Trotwood">
+          <nav className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1" aria-label="The Reading of the Wardens">
             {standardLinks.map((link) => (
               <span key={link.href} className="inline-flex items-center gap-3">
                 <NavDiamond />
                 <Link
                   href={link.href}
                   aria-current={active === link.active ? 'page' : undefined}
-                  className={navClass(link.prominent)}
+                  className={navClass()}
                 >
                   {link.label}
                 </Link>
               </span>
             ))}
+            <NavDiamond />
+            <SupportButton />
             <NavDiamond />
           </nav>
 
