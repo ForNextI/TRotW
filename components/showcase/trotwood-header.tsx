@@ -24,7 +24,7 @@ function NavDiamond() {
 function SupportButton() {
   return (
     <a
-      href="https://ko-fi.com/wardenspc"
+      href="https://ko-fi.com/dodoink"
       target="_blank"
       rel="noopener noreferrer"
       className="inline-flex min-h-9 items-center rounded-xl border border-accent/70 bg-background/70 px-3 text-sm font-bold text-accent transition hover:border-primary hover:bg-accent/10 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
