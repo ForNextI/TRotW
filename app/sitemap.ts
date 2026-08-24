@@ -7,6 +7,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [releases, books] = await Promise.all([getReleaseCatalog(), getReadBooks()])
   const staticRoutes = [
     '/',
+    '/play',
+    '/shape',
     '/read',
     '/read/about',
     '/read/toril',

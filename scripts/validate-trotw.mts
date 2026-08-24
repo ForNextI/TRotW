@@ -5,7 +5,7 @@ const ROOT = process.cwd()
 const FAN_NOTICE = 'The Reading of the Wardens is unofficial Fan Content permitted under the Fan Content Policy. Not approved/endorsed by Wizards. Portions of the materials used are property of Wizards of the Coast. ©Wizards of the Coast LLC.'
 
 function fail(message: string): never {
-  console.error(`\nTROTW 2.1.015 validation failed: ${message}`)
+  console.error(`\nTROTW 2.2 validation failed: ${message}`)
   process.exit(1)
 }
 
@@ -29,7 +29,7 @@ function walk(directory: string): string[] {
 }
 
 const packageJson = JSON.parse(text('package.json')) as { version?: string; scripts?: Record<string, string> }
-if (packageJson.version !== '2.1.15') fail('package.json is not version 2.1.15')
+if (packageJson.version !== '2.2.0') fail('package.json is not version 2.2.0')
 if (!packageJson.scripts?.['validate:version'] || !packageJson.scripts?.['validate:release']) fail('release validation scripts are missing')
 
 const layout = text('app/layout.tsx')
@@ -59,6 +59,7 @@ for (const required of [
   'app/api/owner/service-status/route.ts',
   'components/owner/owner-service-status.tsx',
   'components/showcase/trotwood-header.tsx',
+  'components/showcase/rpgyw-signpost.tsx',
   'lib/site/service-config.ts',
   'lib/read/narration-cache.ts',
   'app/read/toril/[releaseId]/page.tsx',
@@ -81,6 +82,11 @@ for (const required of [
   'public/images/rodney-shrine.webp',
   'public/images/rodney-bones.png',
   'public/images/medieval/rodney.webp',
+  'app/play/page.tsx',
+  'app/shape/page.tsx',
+  'public/images/rpgyw-signpost-map.png',
+  'public/images/rpgyw-logo.png',
+  'public/images/rpgyw-compass.png',
 ]) exists(required)
 
 const publisherRoute = text('app/api/read/publisher/route.ts')
@@ -184,20 +190,25 @@ for (const expected of ['Forgotten Realms', 'No knowledge of the Forgotten Realm
 if (readLanding.includes('<ReaderPoll')) fail('Reader Poll still appears on the landing page')
 if (readLanding.includes('Current Bonus Image') || readLanding.includes('Read the Adventure Now')) fail('legacy landing-page waypoint/CTA remains')
 if (readLanding.includes('src="/images/wardens-hero.png"')) fail('redundant Read hero image returned in 2.1')
+
 const trotwoodHeader = text('components/showcase/trotwood-header.tsx')
-for (const expected of ['Trotwood', 'Read', 'Rodney', 'href="/rodney"', 'sticky top-0', 'NavDiamond', 'FullscreenToggle']) {
-  if (!trotwoodHeader.includes(expected)) fail(`Trotwood header is missing 2.1 behavior: ${expected}`)
+for (const expected of ['Trotwood', 'Play', 'Shape', 'Read', 'Rodney', "href: '/play'", "href: '/shape'", 'href="/rodney"', 'sticky top-0', 'NavDiamond', 'FullscreenToggle']) {
+  if (!trotwoodHeader.includes(expected)) fail(`Trotwood header is missing 2.2 behavior: ${expected}`)
 }
+if (!trotwoodHeader.includes('if (showMistControls)')) fail('reading-room header is no longer isolated from the standard Play/Shape navigation')
 if (!trotwoodHeader.includes('href="/read/toril"')) fail('Trotwood Read navigation does not enter the reading room')
+
 const mistTiming = text('components/read/mistinarperadnacles.tsx')
 if (!mistTiming.includes('const FIRST_VISIT_DELAY_MS = 300_000')) fail('first automatic Mistinarperadnacles visit is not delayed five minutes')
 if (!mistTiming.includes('const MIN_REPEAT_DELAY_MS = 90_000')) fail('Mistinarperadnacles repeat minimum changed unexpectedly')
 if (!mistTiming.includes('const MAX_REPEAT_DELAY_MS = 300_000')) fail('Mistinarperadnacles repeat maximum changed unexpectedly')
+
 const releasePage = text('app/read/toril/[releaseId]/page.tsx')
 if (!releasePage.includes('TrotwoodHeader active="read" showMistControls')) fail('published reading pages are missing Mist controls in the persistent Trotwood header')
 if (releasePage.includes('<Mistinarperadnacles')) fail('published reading page still mounts a separate Mist utility row')
 if (releasePage.includes('Back to Read overview')) fail('legacy reading-page header remains')
 if (!releasePage.includes("release.canonicalId === '1.01' ? <ReaderPoll />")) fail('Reader Poll is not limited to the Yawning Portal release')
+
 const rodneyPage = text('app/rodney/page.tsx')
 if (!rodneyPage.includes('TrotwoodHeader active="rodney"')) fail('Rodney is missing the shared Trotwood header')
 for (const expected of ['fictional gambling', 'No real money is wagered', 'Wager one silver piece', 'Win Rodney’s pot']) {
@@ -207,6 +218,20 @@ const rodneyPlay = text('app/api/rodney/play/route.ts')
 if (!rodneyPlay.includes("@/lib/site/rate-limit")) fail('Rodney still depends on the retired WPC AIGM rate limiter')
 const rodneyLedger = text('lib/rodney/ledger.ts')
 if (!rodneyLedger.includes("@/lib/site/poll-store")) fail('Rodney ledger is not using the standalone TROTW Redis service')
+
+const signpost = text('components/showcase/rpgyw-signpost.tsx')
+for (const expected of ['/images/rpgyw-signpost-map.png', '/images/rpgyw-logo.png', '/images/rpgyw-compass.png', 'opacity-40', 'md:object-cover']) {
+  if (!signpost.includes(expected)) fail(`RPG Your Way bridge treatment is missing: ${expected}`)
+}
+const playPage = text('app/play/page.tsx')
+const shapePage = text('app/shape/page.tsx')
+if (!playPage.includes('RpgYourWaySignpost kind="play"')) fail('Play signpost route is not wired to the RPG Your Way bridge')
+if (!shapePage.includes('RpgYourWaySignpost kind="shape"')) fail('Shape signpost route is not wired to the RPG Your Way bridge')
+if (!signpost.includes('https://www.rpgyourway.com/play')) fail('Play signpost does not point to RPG Your Way Play')
+if (!signpost.includes('https://www.rpgyourway.com/shape')) fail('Shape signpost does not point to RPG Your Way Shape')
+
+const sitemap = text('app/sitemap.ts')
+if (!sitemap.includes("'/play'") || !sitemap.includes("'/shape'")) fail('Play and Shape signposts are missing from the sitemap')
 
 const repositoryText = sourceFiles.map((relative) => text(relative)).join('\n')
 const secretPatterns = [
@@ -218,5 +243,5 @@ for (const pattern of secretPatterns) {
   if (pattern.test(repositoryText)) fail('a credential-shaped secret appears to be committed in source')
 }
 
-console.log('TROTW 2.1.015 release validation passed.')
+console.log('TROTW 2.2 release validation passed.')
 console.log(`Validated ${catalog.length} published release units and ${imagePaths.length} referenced catalog/state images.`)
