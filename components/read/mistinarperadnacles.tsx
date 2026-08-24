@@ -107,19 +107,20 @@ export function Mistinarperadnacles({
   return (
     <>
       {placement === 'header' ? (
-        <div className="flex min-w-0 flex-wrap items-center justify-center gap-2 sm:flex-nowrap">
-          <span className="size-2 shrink-0 rotate-45 border border-accent/65" aria-hidden="true" />
+        <div className="flex min-w-0 flex-nowrap items-center justify-center gap-1.5 sm:gap-2">
+          <span className="size-1.5 shrink-0 rotate-45 border border-accent/65 sm:size-2" aria-hidden="true" />
 
           <button
             type="button"
             onClick={() => beginVisit(true)}
             disabled={visible}
-            className="inline-flex min-h-9 items-center whitespace-nowrap px-1 text-xs font-bold text-muted-foreground transition hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-45 sm:text-sm"
+            className="inline-flex min-h-9 items-center whitespace-nowrap px-1 text-[11px] font-bold text-muted-foreground transition hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-45 sm:text-sm"
           >
-            Call Mistinarperadnacles IV
+            <span className="md:hidden">Call Mist</span>
+            <span className="hidden md:inline">Call Mistinarperadnacles IV</span>
           </button>
 
-          <span className="size-2 shrink-0 rotate-45 border border-accent/65" aria-hidden="true" />
+          <span className="size-1.5 shrink-0 rotate-45 border border-accent/65 sm:size-2" aria-hidden="true" />
 
           <MotionSettingsControl header />
         </div>

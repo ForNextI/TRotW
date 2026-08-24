@@ -140,16 +140,16 @@ export function MotionSettingsControl({
 
   if (header) {
     return (
-      <label className="inline-flex min-h-9 min-w-0 items-center gap-2 text-muted-foreground">
-        <span className="shrink-0 text-xs font-bold uppercase tracking-[0.12em]">Motion</span>
+      <label className="inline-flex min-h-9 min-w-0 items-center gap-1.5 text-muted-foreground sm:gap-2">
+        <span className="shrink-0 text-[11px] font-bold uppercase tracking-[0.08em] sm:text-xs sm:tracking-[0.12em]">Motion</span>
         <select
           name="motionPreference"
           value={preference}
           onChange={(event) => setPreference(event.target.value as MotionPreference)}
-          className="min-w-0 max-w-[10.5rem] rounded-lg border border-border bg-background/70 px-2 py-1.5 text-xs font-semibold text-foreground"
+          className="min-w-0 max-w-[8.5rem] rounded-lg border border-border bg-background/70 px-2 py-1.5 text-[11px] font-semibold text-foreground sm:max-w-[10.5rem] sm:text-xs"
           aria-label="Motion settings"
         >
-          <option value="system">Use device setting</option>
+          <option value="system">Device setting</option>
           <option value="reduce">Reduce motion</option>
           <option value="full">Allow motion</option>
         </select>

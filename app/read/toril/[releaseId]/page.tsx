@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { Mistinarperadnacles } from '@/components/read/mistinarperadnacles'
 import { ReadAloudControl, ReadAloudReleaseRegistrar } from '@/components/read/read-aloud'
 import { ReadTableOfContents } from '@/components/read/read-table-of-contents'
 import { ReaderPoll } from '@/components/read/reader-poll'
@@ -58,16 +57,16 @@ export default async function ReleasePage({ params }: ReleasePageProps) {
               <p className="mt-2 text-sm text-[#604a2c]">{release.wordCount.toLocaleString()} words · Published {release.publishedAt}</p>
             </div>
 
-            <nav className="mt-6 flex items-center justify-between gap-4 border-b border-[#7b5b2f]/40 pb-6" aria-label="Reading navigation at top">
+            <nav className="mt-6 grid grid-cols-2 gap-3 border-b border-[#7b5b2f]/40 pb-6 sm:grid-cols-[auto_minmax(0,1fr)_auto] sm:items-center sm:gap-4" aria-label="Reading navigation at top">
               {previous ? (
-                <Link href={`/read/toril/${previous.id}`} className="inline-flex items-center gap-2 rounded-xl border border-[#7b5b2f]/35 px-4 py-2 text-sm font-bold hover:bg-[#d7bd86]/55"><ChevronLeft className="size-4" aria-hidden="true" />Previous</Link>
-              ) : <span className="inline-flex items-center gap-2 rounded-xl border border-[#7b5b2f]/20 px-4 py-2 text-sm font-bold opacity-40"><ChevronLeft className="size-4" aria-hidden="true" />Previous</span>}
+                <Link href={`/read/toril/${previous.id}`} className="col-start-1 row-start-2 inline-flex w-full items-center justify-center gap-2 whitespace-nowrap rounded-xl border border-[#7b5b2f]/35 px-4 py-2 text-sm font-bold hover:bg-[#d7bd86]/55 sm:col-start-1 sm:row-start-1 sm:w-auto"><ChevronLeft className="size-4" aria-hidden="true" />Previous</Link>
+              ) : <span className="col-start-1 row-start-2 inline-flex w-full items-center justify-center gap-2 whitespace-nowrap rounded-xl border border-[#7b5b2f]/20 px-4 py-2 text-sm font-bold opacity-40 sm:col-start-1 sm:row-start-1 sm:w-auto"><ChevronLeft className="size-4" aria-hidden="true" />Previous</span>}
               {beginning && beginning.id !== release.id ? (
-                <Link href={`/read/toril/${beginning.id}`} className="rounded-xl border border-[#7b5b2f]/35 px-4 py-2 text-center text-sm font-bold hover:bg-[#d7bd86]/55">Beginning of Book One</Link>
-              ) : <span className="rounded-xl border border-[#7b5b2f]/20 px-4 py-2 text-center text-sm font-bold opacity-40">Beginning of Book One</span>}
+                <Link href={`/read/toril/${beginning.id}`} className="col-span-2 row-start-1 w-full rounded-xl border border-[#7b5b2f]/35 px-4 py-2 text-center text-sm font-bold hover:bg-[#d7bd86]/55 sm:col-span-1 sm:col-start-2 sm:row-start-1">Beginning of Book One</Link>
+              ) : <span className="col-span-2 row-start-1 w-full rounded-xl border border-[#7b5b2f]/20 px-4 py-2 text-center text-sm font-bold opacity-40 sm:col-span-1 sm:col-start-2 sm:row-start-1">Beginning of Book One</span>}
               {next ? (
-                <Link href={`/read/toril/${next.id}`} aria-label={`Next update: ${next.title}`} className="inline-flex items-center gap-2 rounded-xl border border-[#7b5b2f]/35 px-4 py-2 text-sm font-bold hover:bg-[#d7bd86]/55">Next<ChevronRight className="size-4" aria-hidden="true" /></Link>
-              ) : <span className="inline-flex items-center gap-2 rounded-xl border border-[#7b5b2f]/20 px-4 py-2 text-sm font-bold opacity-40">Next<ChevronRight className="size-4" aria-hidden="true" /></span>}
+                <Link href={`/read/toril/${next.id}`} aria-label={`Next update: ${next.title}`} className="col-start-2 row-start-2 inline-flex w-full items-center justify-center gap-2 whitespace-nowrap rounded-xl border border-[#7b5b2f]/35 px-4 py-2 text-sm font-bold hover:bg-[#d7bd86]/55 sm:col-start-3 sm:row-start-1 sm:w-auto">Next<ChevronRight className="size-4" aria-hidden="true" /></Link>
+              ) : <span className="col-start-2 row-start-2 inline-flex w-full items-center justify-center gap-2 whitespace-nowrap rounded-xl border border-[#7b5b2f]/20 px-4 py-2 text-sm font-bold opacity-40 sm:col-start-3 sm:row-start-1 sm:w-auto">Next<ChevronRight className="size-4" aria-hidden="true" /></span>}
             </nav>
 
             <div className="mt-7">
@@ -93,23 +92,23 @@ export default async function ReleasePage({ params }: ReleasePageProps) {
 
             {release.canonicalId === '1.01' ? <ReaderPoll /> : null}
 
-            <nav className="mt-8 flex items-center justify-between gap-4 border-t border-[#7b5b2f]/40 pt-6" aria-label="Reading navigation">
+            <nav className="mt-8 grid grid-cols-2 gap-3 border-t border-[#7b5b2f]/40 pt-6 sm:grid-cols-[auto_minmax(0,1fr)_auto] sm:items-center sm:gap-4" aria-label="Reading navigation">
               {previous ? (
-                <Link href={`/read/toril/${previous.id}`} className="inline-flex items-center gap-2 rounded-xl border border-[#7b5b2f]/35 px-4 py-2 text-sm font-bold hover:bg-[#d7bd86]/55">
+                <Link href={`/read/toril/${previous.id}`} className="col-start-1 row-start-2 inline-flex w-full items-center justify-center gap-2 whitespace-nowrap rounded-xl border border-[#7b5b2f]/35 px-4 py-2 text-sm font-bold hover:bg-[#d7bd86]/55 sm:col-start-1 sm:row-start-1 sm:w-auto">
                   <ChevronLeft className="size-4" aria-hidden="true" />Previous
                 </Link>
               ) : (
-                <span className="inline-flex items-center gap-2 rounded-xl border border-[#7b5b2f]/20 px-4 py-2 text-sm font-bold opacity-40"><ChevronLeft className="size-4" aria-hidden="true" />Previous</span>
+                <span className="col-start-1 row-start-2 inline-flex w-full items-center justify-center gap-2 whitespace-nowrap rounded-xl border border-[#7b5b2f]/20 px-4 py-2 text-sm font-bold opacity-40 sm:col-start-1 sm:row-start-1 sm:w-auto"><ChevronLeft className="size-4" aria-hidden="true" />Previous</span>
               )}
               {beginning && beginning.id !== release.id ? (
-                <Link href={`/read/toril/${beginning.id}`} className="rounded-xl border border-[#7b5b2f]/35 px-4 py-2 text-center text-sm font-bold hover:bg-[#d7bd86]/55">Beginning of Book One</Link>
-              ) : <span className="rounded-xl border border-[#7b5b2f]/20 px-4 py-2 text-center text-sm font-bold opacity-40">Beginning of Book One</span>}
+                <Link href={`/read/toril/${beginning.id}`} className="col-span-2 row-start-1 w-full rounded-xl border border-[#7b5b2f]/35 px-4 py-2 text-center text-sm font-bold hover:bg-[#d7bd86]/55 sm:col-span-1 sm:col-start-2 sm:row-start-1">Beginning of Book One</Link>
+              ) : <span className="col-span-2 row-start-1 w-full rounded-xl border border-[#7b5b2f]/20 px-4 py-2 text-center text-sm font-bold opacity-40 sm:col-span-1 sm:col-start-2 sm:row-start-1">Beginning of Book One</span>}
               {next ? (
-                <Link href={`/read/toril/${next.id}`} aria-label={`Next update: ${next.title}`} className="inline-flex items-center gap-2 rounded-xl border border-[#7b5b2f]/35 px-4 py-2 text-sm font-bold hover:bg-[#d7bd86]/55">
+                <Link href={`/read/toril/${next.id}`} aria-label={`Next update: ${next.title}`} className="col-start-2 row-start-2 inline-flex w-full items-center justify-center gap-2 whitespace-nowrap rounded-xl border border-[#7b5b2f]/35 px-4 py-2 text-sm font-bold hover:bg-[#d7bd86]/55 sm:col-start-3 sm:row-start-1 sm:w-auto">
                   Next<ChevronRight className="size-4" aria-hidden="true" />
                 </Link>
               ) : (
-                <span className="inline-flex items-center gap-2 rounded-xl border border-[#7b5b2f]/20 px-4 py-2 text-sm font-bold opacity-40">Next<ChevronRight className="size-4" aria-hidden="true" /></span>
+                <span className="col-start-2 row-start-2 inline-flex w-full items-center justify-center gap-2 whitespace-nowrap rounded-xl border border-[#7b5b2f]/20 px-4 py-2 text-sm font-bold opacity-40 sm:col-start-3 sm:row-start-1 sm:w-auto">Next<ChevronRight className="size-4" aria-hidden="true" /></span>
               )}
             </nav>
 

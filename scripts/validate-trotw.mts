@@ -5,7 +5,7 @@ const ROOT = process.cwd()
 const FAN_NOTICE = 'The Reading of the Wardens is unofficial Fan Content permitted under the Fan Content Policy. Not approved/endorsed by Wizards. Portions of the materials used are property of Wizards of the Coast. ©Wizards of the Coast LLC.'
 
 function fail(message: string): never {
-  console.error(`\nTROTW 2.2.1 validation failed: ${message}`)
+  console.error(`\nTROTW 2.2.2 validation failed: ${message}`)
   process.exit(1)
 }
 
@@ -29,7 +29,7 @@ function walk(directory: string): string[] {
 }
 
 const packageJson = JSON.parse(text('package.json')) as { version?: string; scripts?: Record<string, string> }
-if (packageJson.version !== '2.2.1') fail('package.json is not version 2.2.1')
+if (packageJson.version !== '2.2.2') fail('package.json is not version 2.2.2')
 if (!packageJson.scripts?.['validate:version'] || !packageJson.scripts?.['validate:release']) fail('release validation scripts are missing')
 
 const layout = text('app/layout.tsx')
@@ -199,12 +199,17 @@ if (!trotwoodHeader.includes('if (showMistControls)')) fail('reading-room header
 if (!trotwoodHeader.includes('href="/read/toril"')) fail('Trotwood Read navigation does not enter the reading room')
 
 const mistTiming = text('components/read/mistinarperadnacles.tsx')
+const motionSettings = text('components/accessibility/motion-preference.tsx')
+if (!mistTiming.includes('md:hidden">Call Mist</span>')) fail('mobile reading header does not use the compact Call Mist label')
+if (!motionSettings.includes('<option value="system">Device setting</option>')) fail('header Motion control does not use the compact Device setting label')
 if (!mistTiming.includes('const FIRST_VISIT_DELAY_MS = 300_000')) fail('first automatic Mistinarperadnacles visit is not delayed five minutes')
 if (!mistTiming.includes('const MIN_REPEAT_DELAY_MS = 90_000')) fail('Mistinarperadnacles repeat minimum changed unexpectedly')
 if (!mistTiming.includes('const MAX_REPEAT_DELAY_MS = 300_000')) fail('Mistinarperadnacles repeat maximum changed unexpectedly')
 
 const releasePage = text('app/read/toril/[releaseId]/page.tsx')
 if (!releasePage.includes('TrotwoodHeader active="read" showMistControls')) fail('published reading pages are missing Mist controls in the persistent Trotwood header')
+if (!releasePage.includes('grid grid-cols-2 gap-3')) fail('reading navigation is missing the two-row phone layout')
+if (!releasePage.includes('col-span-2 row-start-1')) fail('Beginning of Book One is not full-width above Previous/Next on phones')
 if (releasePage.includes('<Mistinarperadnacles')) fail('published reading page still mounts a separate Mist utility row')
 if (releasePage.includes('Back to Read overview')) fail('legacy reading-page header remains')
 if (!releasePage.includes("release.canonicalId === '1.01' ? <ReaderPoll />")) fail('Reader Poll is not limited to the Yawning Portal release')
@@ -243,5 +248,5 @@ for (const pattern of secretPatterns) {
   if (pattern.test(repositoryText)) fail('a credential-shaped secret appears to be committed in source')
 }
 
-console.log('TROTW 2.2.1 release validation passed.')
+console.log('TROTW 2.2.2 release validation passed.')
 console.log(`Validated ${catalog.length} published release units and ${imagePaths.length} referenced catalog/state images.`)

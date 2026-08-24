@@ -50,7 +50,7 @@ export function TrotwoodHeader({ active, showMistControls = false }: TrotwoodHea
   if (showMistControls) {
     return (
       <header className="sticky top-0 z-40 border-b border-border/80 bg-background/90 shadow-[0_8px_28px_rgba(0,0,0,0.22)] backdrop-blur-md">
-        <div className="mx-auto grid min-h-14 max-w-7xl grid-cols-[auto_1fr] items-center gap-x-3 gap-y-2 px-3 py-2 sm:px-8 md:grid-cols-[auto_minmax(0,1fr)_auto]">
+        <div className="mx-auto grid min-h-14 max-w-7xl grid-cols-[auto_1fr] items-center gap-x-3 gap-y-1 px-3 py-1.5 sm:px-8 sm:py-2 md:grid-cols-[auto_minmax(0,1fr)_auto]">
           <div className="col-start-1 row-start-1">
             <TrotwoodBrand />
           </div>
