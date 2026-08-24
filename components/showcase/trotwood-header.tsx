@@ -8,8 +8,11 @@ type TrotwoodHeaderProps = {
   showMistControls?: boolean
 }
 
-function navClass() {
-  return 'inline-flex min-h-10 items-center px-1 text-sm font-bold text-muted-foreground transition hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring'
+function navClass(prominent = false) {
+  return [
+    'inline-flex min-h-10 items-center px-1 text-sm font-bold transition hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
+    prominent ? 'text-foreground' : 'text-muted-foreground',
+  ].join(' ')
 }
 
 function NavDiamond() {
@@ -22,10 +25,10 @@ function NavDiamond() {
 }
 
 const standardLinks = [
-  { href: '/play', label: 'Play', active: 'play' as const },
-  { href: '/shape', label: 'Shape', active: 'shape' as const },
-  { href: '/read/toril', label: 'Read', active: 'read' as const },
-  { href: '/rodney', label: 'Rodney', active: 'rodney' as const },
+  { href: '/read/toril', label: 'Read', active: 'read' as const, prominent: true },
+  { href: '/rodney', label: 'Rodney', active: 'rodney' as const, prominent: true },
+  { href: '/play', label: 'Play', active: 'play' as const, prominent: false },
+  { href: '/shape', label: 'Shape', active: 'shape' as const, prominent: false },
 ]
 
 function TrotwoodBrand() {
@@ -107,7 +110,7 @@ export function TrotwoodHeader({ active, showMistControls = false }: TrotwoodHea
                 <Link
                   href={link.href}
                   aria-current={active === link.active ? 'page' : undefined}
-                  className={navClass()}
+                  className={navClass(link.prominent)}
                 >
                   {link.label}
                 </Link>
