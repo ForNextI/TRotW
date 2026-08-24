@@ -8,8 +8,10 @@ type TrotwoodHeaderProps = {
   showMistControls?: boolean
 }
 
-function navClass() {
-  return 'inline-flex min-h-10 items-center px-1 text-sm font-bold text-muted-foreground transition hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring'
+function navClass(emphasized = false) {
+  return `inline-flex min-h-10 items-center px-1 text-sm font-bold ${
+    emphasized ? 'text-foreground' : 'text-muted-foreground'
+  } transition hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring`
 }
 
 function NavDiamond() {
@@ -36,10 +38,10 @@ function SupportButton() {
 }
 
 const standardLinks = [
-  { href: '/play', label: 'Play', active: 'play' as const },
-  { href: '/shape', label: 'Shape', active: 'shape' as const },
-  { href: '/read/toril', label: 'Read', active: 'read' as const },
-  { href: '/rodney', label: 'Rodney', active: 'rodney' as const },
+  { href: '/read/toril', label: 'Read', active: 'read' as const, emphasized: true },
+  { href: '/rodney', label: 'Rodney', active: 'rodney' as const, emphasized: true },
+  { href: '/play', label: 'Play', active: 'play' as const, emphasized: false },
+  { href: '/shape', label: 'Shape', active: 'shape' as const, emphasized: false },
 ]
 
 function TrotwoodBrand() {
@@ -77,7 +79,7 @@ export function TrotwoodHeader({ active, showMistControls = false }: TrotwoodHea
               <Link
                 href="/read/toril"
                 aria-current={active === 'read' ? 'page' : undefined}
-                className={navClass()}
+                className={navClass(true)}
               >
                 Read
               </Link>
@@ -87,7 +89,7 @@ export function TrotwoodHeader({ active, showMistControls = false }: TrotwoodHea
               <Link
                 href="/rodney"
                 aria-current={active === 'rodney' ? 'page' : undefined}
-                className={navClass()}
+                className={navClass(true)}
               >
                 Rodney
               </Link>
@@ -125,7 +127,7 @@ export function TrotwoodHeader({ active, showMistControls = false }: TrotwoodHea
                 <Link
                   href={link.href}
                   aria-current={active === link.active ? 'page' : undefined}
-                  className={navClass()}
+                  className={navClass(link.emphasized)}
                 >
                   {link.label}
                 </Link>
