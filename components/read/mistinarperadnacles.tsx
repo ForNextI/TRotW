@@ -38,7 +38,11 @@ function DragonVisit({ path, legacy, reducedMotion }: { path: FlightPath; legacy
   )
 }
 
-export function Mistinarperadnacles() {
+export function Mistinarperadnacles({
+  placement = 'page',
+}: {
+  placement?: 'page' | 'header'
+} = {}) {
   const { reducedMotion } = useMotionPreference()
   const [visible, setVisible] = useState(false)
   const [path, setPath] = useState<FlightPath>('left-right')
@@ -102,17 +106,36 @@ export function Mistinarperadnacles() {
 
   return (
     <>
-      <div className="flex flex-wrap items-center justify-end gap-2">
-        <MotionSettingsControl compact />
-        <button
-          type="button"
-          onClick={() => beginVisit(true)}
-          disabled={visible}
-          className="inline-flex min-h-11 items-center justify-center rounded-xl border border-amber-200/45 bg-amber-100 px-5 py-2.5 text-sm font-bold text-[#38240f] shadow-lg transition hover:bg-amber-50 disabled:cursor-not-allowed disabled:opacity-45"
-        >
-          Call Mistinarperadnacles IV
-        </button>
-      </div>
+      {placement === 'header' ? (
+        <div className="flex min-w-0 flex-wrap items-center justify-center gap-2 sm:flex-nowrap">
+          <span className="size-2 shrink-0 rotate-45 border border-accent/65" aria-hidden="true" />
+
+          <button
+            type="button"
+            onClick={() => beginVisit(true)}
+            disabled={visible}
+            className="inline-flex min-h-9 items-center whitespace-nowrap px-1 text-xs font-bold text-muted-foreground transition hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-45 sm:text-sm"
+          >
+            Call Mistinarperadnacles IV
+          </button>
+
+          <span className="size-2 shrink-0 rotate-45 border border-accent/65" aria-hidden="true" />
+
+          <MotionSettingsControl header />
+        </div>
+      ) : (
+        <div className="flex flex-wrap items-center justify-end gap-2">
+          <MotionSettingsControl compact />
+          <button
+            type="button"
+            onClick={() => beginVisit(true)}
+            disabled={visible}
+            className="inline-flex min-h-11 items-center justify-center rounded-xl border border-amber-200/45 bg-amber-100 px-5 py-2.5 text-sm font-bold text-[#38240f] shadow-lg transition hover:bg-amber-50 disabled:cursor-not-allowed disabled:opacity-45"
+          >
+            Call Mistinarperadnacles IV
+          </button>
+        </div>
+      )}
       <p className="sr-only" aria-live="polite">{summonNotice}</p>
       {visible && typeof document !== 'undefined' && createPortal(
         <div key={visitId} className="mistinarperadnacles-flight" role="status" aria-label="Mistinarperadnacles IV is visiting">

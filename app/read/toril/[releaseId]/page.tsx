@@ -43,13 +43,9 @@ export default async function ReleasePage({ params }: ReleasePageProps) {
 
   return (
     <div id="top" className="medieval-page medieval-page--read min-h-screen text-stone-100">
-      <TrotwoodHeader active="read" />
+      <TrotwoodHeader active="read" showMistControls />
 
       <main id="main-content" tabIndex={-1} className="px-4 py-8 sm:px-8 sm:py-12">
-        <div className="mx-auto mb-4 flex max-w-4xl justify-end">
-          <Mistinarperadnacles />
-        </div>
-
         <article className="relative z-10 mx-auto max-w-4xl overflow-hidden rounded-[2rem] border border-amber-900/55 bg-[#e7d4a7] px-6 py-10 text-[#2a2115] shadow-[0_35px_90px_rgba(0,0,0,0.55),inset_0_0_80px_rgba(92,58,19,0.16)] sm:px-12 sm:py-14">
           <div className="pointer-events-none absolute inset-0 opacity-20 [background-image:radial-gradient(rgba(77,48,16,0.35)_0.6px,transparent_0.6px)] [background-size:6px_6px]" aria-hidden="true" />
           <div className="relative">

@@ -124,13 +124,39 @@ export function useMotionPreference() {
   return value
 }
 
-export function MotionSettingsControl({ compact = false }: { compact?: boolean } = {}) {
+export function MotionSettingsControl({
+  compact = false,
+  header = false,
+}: {
+  compact?: boolean
+  header?: boolean
+} = {}) {
   const { preference, reducedMotion, setPreference } = useMotionPreference()
   const status = preference === 'system'
     ? `Device currently ${reducedMotion ? 'reduces motion' : 'allows motion'}`
     : preference === 'reduce'
       ? 'Motion reduced'
       : 'Motion allowed'
+
+  if (header) {
+    return (
+      <label className="inline-flex min-h-9 min-w-0 items-center gap-2 text-muted-foreground">
+        <span className="shrink-0 text-xs font-bold uppercase tracking-[0.12em]">Motion</span>
+        <select
+          name="motionPreference"
+          value={preference}
+          onChange={(event) => setPreference(event.target.value as MotionPreference)}
+          className="min-w-0 max-w-[10.5rem] rounded-lg border border-border bg-background/70 px-2 py-1.5 text-xs font-semibold text-foreground"
+          aria-label="Motion settings"
+        >
+          <option value="system">Use device setting</option>
+          <option value="reduce">Reduce motion</option>
+          <option value="full">Allow motion</option>
+        </select>
+        <span className="sr-only" aria-live="polite">{status}</span>
+      </label>
+    )
+  }
 
   if (compact) {
     return (

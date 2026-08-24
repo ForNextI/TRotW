@@ -1,9 +1,11 @@
 import { BookOpenText } from 'lucide-react'
 import Link from 'next/link'
 import { FullscreenToggle } from '@/components/accessibility/fullscreen-toggle'
+import { Mistinarperadnacles } from '@/components/read/mistinarperadnacles'
 
 type TrotwoodHeaderProps = {
   active?: 'read' | 'rodney'
+  showMistControls?: boolean
 }
 
 function navClass() {
@@ -19,23 +21,29 @@ function NavDiamond() {
   )
 }
 
-export function TrotwoodHeader({ active }: TrotwoodHeaderProps) {
+export function TrotwoodHeader({ active, showMistControls = false }: TrotwoodHeaderProps) {
   return (
     <header className="sticky top-0 z-40 border-b border-border/80 bg-background/90 shadow-[0_8px_28px_rgba(0,0,0,0.22)] backdrop-blur-md">
-      <div className="mx-auto flex min-h-14 max-w-7xl items-center gap-2 px-3 sm:gap-3 sm:px-8">
+      <div className="mx-auto grid min-h-14 max-w-7xl grid-cols-[auto_1fr] items-center gap-x-3 gap-y-2 px-3 py-2 sm:px-8 md:grid-cols-[auto_minmax(0,1fr)_auto]">
         <Link
           href="/"
-          className="inline-flex min-h-10 shrink-0 items-center gap-2 rounded-lg font-display font-bold tracking-wide text-accent transition hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          className="col-start-1 row-start-1 inline-flex min-h-10 shrink-0 items-center gap-2 rounded-lg font-display font-bold tracking-wide text-accent transition hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           aria-label="Trotwood home"
         >
           <BookOpenText className="size-5 shrink-0" aria-hidden="true" />
           <span className="text-base sm:text-xl">Trotwood</span>
         </Link>
 
-        <div className="ml-auto flex shrink-0 items-center gap-3 sm:gap-4">
+        {showMistControls ? (
+          <div className="col-span-2 row-start-2 flex min-w-0 items-center justify-center md:col-span-1 md:col-start-2 md:row-start-1">
+            <Mistinarperadnacles placement="header" />
+          </div>
+        ) : null}
+
+        <div className="col-start-2 row-start-1 ml-auto flex shrink-0 items-center gap-2 sm:gap-3 md:col-start-3">
           <NavDiamond />
 
-          <nav className="flex items-center gap-3 sm:gap-4" aria-label="Trotwood">
+          <nav className="flex items-center gap-2 sm:gap-3" aria-label="Trotwood">
             <Link
               href="/read/toril"
               aria-current={active === 'read' ? 'page' : undefined}
