@@ -26,7 +26,7 @@ export default async function ReadPage() {
     <div className="min-h-screen bg-background text-foreground">
       <TrotwoodHeader active="read" />
       <main id="main-content" tabIndex={-1}>
-        <section className="px-5 pb-8 pt-10 sm:px-8 sm:pb-10 sm:pt-14">
+        <section className="px-5 pb-6 pt-8 sm:px-8 sm:pb-8 sm:pt-10">
           <div className="mx-auto max-w-7xl">
             <h1 className="font-display text-[clamp(3.1rem,7.2vw,7.2rem)] font-bold leading-[0.9] tracking-[-0.035em] text-accent lg:whitespace-nowrap">
               The Wardens of Waterdeep
@@ -55,7 +55,7 @@ export default async function ReadPage() {
         </section>
 
         {currentBook && (
-          <section className="px-5 pb-10 sm:px-8 sm:pb-14">
+          <section className="px-5 pb-8 sm:px-8 sm:pb-8">
             <Link
               href="/read/toril"
               aria-label={`Read ${currentBook.label}: ${currentBook.title}`}
@@ -87,13 +87,13 @@ export default async function ReadPage() {
           </section>
         )}
 
-        <section className="px-5 pb-10 sm:px-8 sm:pb-14" aria-label="Story table of contents">
+        <section className="px-5 pb-6 sm:px-8 sm:pb-6" aria-label="Story table of contents">
           <div className="mx-auto max-w-6xl">
             <ReadTableOfContents releases={releases} books={books} defaultOpen={false} />
           </div>
         </section>
 
-        <section className="border-y border-border bg-card/30 px-5 py-14 sm:px-8 sm:py-20">
+        <section className="border-y border-border bg-card/30 px-5 py-8 sm:px-8 sm:py-8">
           <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(260px,0.34fr)]">
             <article className="rounded-3xl border border-border bg-card p-6 sm:p-9">
               <h2 className="font-display text-3xl font-bold">A note before you enter</h2>
@@ -142,7 +142,7 @@ export default async function ReadPage() {
         </section>
 
         {currentBonusImage && (
-          <section className="px-5 py-12 sm:px-8 sm:py-16" aria-label="Latest bonus illustration">
+          <section className="px-5 py-8 sm:px-8 sm:py-8" aria-label="Latest bonus illustration">
             <div className="mx-auto mb-5 flex max-w-6xl justify-center">
               <div className="relative rounded-xl border border-amber-900/70 bg-gradient-to-b from-amber-200 via-amber-500 to-amber-700 px-8 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.5),0_6px_18px_rgba(0,0,0,0.28)]">
                 <span className="absolute left-3 top-1/2 size-1.5 -translate-y-1/2 rounded-full bg-amber-950/70" aria-hidden="true" />
