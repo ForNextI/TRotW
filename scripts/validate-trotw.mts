@@ -5,7 +5,7 @@ const ROOT = process.cwd()
 const FAN_NOTICE = 'The Reading of the Wardens is unofficial Fan Content permitted under the Fan Content Policy. Not approved/endorsed by Wizards. Portions of the materials used are property of Wizards of the Coast. ©Wizards of the Coast LLC.'
 
 function fail(message: string): never {
-  console.error(`\nTROTW 2.2.302 validation failed: ${message}`)
+  console.error(`\nTROTW 2.2.303 validation failed: ${message}`)
   process.exit(1)
 }
 
@@ -29,7 +29,7 @@ function walk(directory: string): string[] {
 }
 
 const packageJson = JSON.parse(text('package.json')) as { version?: string; scripts?: Record<string, string> }
-if (packageJson.version !== '2.2.302') fail('package.json is not version 2.2.302')
+if (packageJson.version !== '2.2.303') fail('package.json is not version 2.2.303')
 if (!packageJson.scripts?.['validate:version'] || !packageJson.scripts?.['validate:release']) fail('release validation scripts are missing')
 
 const layout = text('app/layout.tsx')
@@ -192,8 +192,8 @@ if (readLanding.includes('Current Bonus Image') || readLanding.includes('Read th
 if (readLanding.includes('src="/images/wardens-hero.png"')) fail('redundant Read hero image returned in 2.1')
 
 const trotwoodHeader = text('components/showcase/trotwood-header.tsx')
-for (const expected of ['TRotW', '/images/wardens-sigil-64.png', 'Play', 'Shape', 'Read', 'Rodney', 'Support', 'https://ko-fi.com/dodoink', "href: '/play'", "href: '/shape'", 'href="/rodney"', 'sticky top-0', 'NavDiamond', 'FullscreenToggle']) {
-  if (!trotwoodHeader.includes(expected)) fail(`TRotW header is missing 2.2.302 behavior: ${expected}`)
+for (const expected of ['TRotW', '/images/wardens-sigil-64.png', 'Play', 'Shape', 'Read', 'Rodney', 'Buy Brett a Coffee', 'KoFiCup', '#72A5F2', '#FF5E5B', 'https://ko-fi.com/dodoink', "href: '/play'", "href: '/shape'", 'href="/rodney"', 'sticky top-0', 'NavDiamond', 'FullscreenToggle']) {
+  if (!trotwoodHeader.includes(expected)) fail(`TRotW header is missing 2.2.303 behavior: ${expected}`)
 }
 if (!trotwoodHeader.includes('if (showMistControls)')) fail('reading-room header is no longer isolated from the standard Play/Shape navigation')
 if (!trotwoodHeader.includes('href="/read/toril"')) fail('Trotwood Read navigation does not enter the reading room')
@@ -243,5 +243,5 @@ for (const pattern of secretPatterns) {
   if (pattern.test(repositoryText)) fail('a credential-shaped secret appears to be committed in source')
 }
 
-console.log('TROTW 2.2.302 release validation passed.')
+console.log('TROTW 2.2.303 release validation passed.')
 console.log(`Validated ${catalog.length} published release units and ${imagePaths.length} referenced catalog/state images.`)
