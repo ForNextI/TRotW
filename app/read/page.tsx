@@ -32,6 +32,23 @@ export default async function ReadPage() {
               The Wardens of Waterdeep
             </h1>
 
+            <figure className="baroque-elminster-frame mt-8">
+              <span className="baroque-elminster-corner baroque-elminster-corner-tl" aria-hidden="true" />
+              <span className="baroque-elminster-corner baroque-elminster-corner-tr" aria-hidden="true" />
+              <span className="baroque-elminster-corner baroque-elminster-corner-bl" aria-hidden="true" />
+              <span className="baroque-elminster-corner baroque-elminster-corner-br" aria-hidden="true" />
+              <div className="baroque-elminster-inner">
+                <Image
+                  src="/images/elminster-wardens.webp"
+                  alt="The Wardens sharing a richly appointed table with Elminster while arcane diagrams glow behind them."
+                  width={1448}
+                  height={1086}
+                  className="block h-auto w-full"
+                  priority
+                />
+              </div>
+            </figure>
+
             <div className="mt-8 grid border-y border-border py-1 md:grid-cols-2">
               <div className="py-6 md:pr-8">
                 <p className="font-display text-2xl font-bold leading-snug text-foreground sm:text-3xl">

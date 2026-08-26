@@ -1,5 +1,9 @@
 # The Reading of the Wardens
 
+**TROTW 2.2.304 · Elminster landing portrait**
+
+TROTW 2.2.304 places the supplied Elminster-and-Wardens illustration directly beneath the landing-page title, ahead of the Forgotten Realms and Adventures with AI introduction cards. The PNG source is converted to a compact WebP and presented in a deliberately ornate gold Baroque-style frame to make the Forgotten Realms identity unmistakable at first glance.
+
 **Build 2.0**
 
 TROTW 2.0 completes the standalone reading-site split: the Read landing page is simplified around the Forgotten Realms novel, the unbranded starting-party tavern image replaces WardensPC branding, Book One becomes the primary reading entrance, the reader poll moves to Release 1.1 (Four at the Portal), the latest bonus image moves to the bottom, and Rodney joins the site with his original fictional-gambling language and shared Roll of Fortune. No real money is wagered or won in Rodney.

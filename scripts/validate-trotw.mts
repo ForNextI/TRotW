@@ -5,7 +5,7 @@ const ROOT = process.cwd()
 const FAN_NOTICE = 'The Reading of the Wardens is unofficial Fan Content permitted under the Fan Content Policy. Not approved/endorsed by Wizards. Portions of the materials used are property of Wizards of the Coast. ©Wizards of the Coast LLC.'
 
 function fail(message: string): never {
-  console.error(`\nTROTW 2.2.303 validation failed: ${message}`)
+  console.error(`\nTROTW 2.2.304 validation failed: ${message}`)
   process.exit(1)
 }
 
@@ -29,7 +29,7 @@ function walk(directory: string): string[] {
 }
 
 const packageJson = JSON.parse(text('package.json')) as { version?: string; scripts?: Record<string, string> }
-if (packageJson.version !== '2.2.303') fail('package.json is not version 2.2.303')
+if (packageJson.version !== '2.2.304') fail('package.json is not version 2.2.304')
 if (!packageJson.scripts?.['validate:version'] || !packageJson.scripts?.['validate:release']) fail('release validation scripts are missing')
 
 const layout = text('app/layout.tsx')
@@ -73,6 +73,7 @@ for (const required of [
   'content/read/read-state.json',
   'content/read/books.json',
   'public/images/wardens-hero.png',
+  'public/images/elminster-wardens.webp',
   'app/rodney/page.tsx',
   'components/rodney/rodney-game.tsx',
   'app/api/rodney/play/route.ts',
@@ -184,7 +185,7 @@ for (const expected of ['Novel age gate', 'Read Aloud', 'Narration library', 'Re
 }
 
 const readLanding = text('app/read/page.tsx')
-for (const expected of ['Forgotten Realms', 'No knowledge of the Forgotten Realms is required', 'Read Book One', 'TrotwoodHeader active="read"']) {
+for (const expected of ['Forgotten Realms', 'No knowledge of the Forgotten Realms is required', 'Read Book One', 'TrotwoodHeader active="read"', '/images/elminster-wardens.webp', 'baroque-elminster-frame']) {
   if (!readLanding.includes(expected)) fail(`Read landing is missing 2.0 content: ${expected}`)
 }
 if (readLanding.includes('<ReaderPoll')) fail('Reader Poll still appears on the landing page')
@@ -193,7 +194,7 @@ if (readLanding.includes('src="/images/wardens-hero.png"')) fail('redundant Read
 
 const trotwoodHeader = text('components/showcase/trotwood-header.tsx')
 for (const expected of ['TRotW', '/images/wardens-sigil-64.png', 'Play', 'Shape', 'Read', 'Rodney', 'Buy Brett a Coffee', 'KoFiCup', '#72A5F2', '#FF5E5B', 'https://ko-fi.com/dodoink', "href: '/play'", "href: '/shape'", 'href="/rodney"', 'sticky top-0', 'NavDiamond', 'FullscreenToggle']) {
-  if (!trotwoodHeader.includes(expected)) fail(`TRotW header is missing 2.2.303 behavior: ${expected}`)
+  if (!trotwoodHeader.includes(expected)) fail(`TRotW header is missing 2.2.304 behavior: ${expected}`)
 }
 if (!trotwoodHeader.includes('if (showMistControls)')) fail('reading-room header is no longer isolated from the standard Play/Shape navigation')
 if (!trotwoodHeader.includes('href="/read/toril"')) fail('Trotwood Read navigation does not enter the reading room')
@@ -243,5 +244,5 @@ for (const pattern of secretPatterns) {
   if (pattern.test(repositoryText)) fail('a credential-shaped secret appears to be committed in source')
 }
 
-console.log('TROTW 2.2.303 release validation passed.')
+console.log('TROTW 2.2.304 release validation passed.')
 console.log(`Validated ${catalog.length} published release units and ${imagePaths.length} referenced catalog/state images.`)

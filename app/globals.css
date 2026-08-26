@@ -169,6 +169,99 @@
   letter-spacing: 0.015em;
 }
 
+/* Landing-page Elminster art: deliberately theatrical, carved-gold Baroque framing. */
+.baroque-elminster-frame {
+  position: relative;
+  width: min(100%, 68rem);
+  margin-inline: auto;
+  padding: clamp(0.8rem, 1.8vw, 1.35rem);
+  overflow: visible;
+  border: 2px solid #f7df8c;
+  border-radius: 1.15rem;
+  background:
+    radial-gradient(circle at 7% 10%, rgba(255, 244, 183, 0.95) 0 0.22rem, transparent 0.24rem),
+    radial-gradient(circle at 93% 10%, rgba(255, 244, 183, 0.95) 0 0.22rem, transparent 0.24rem),
+    radial-gradient(circle at 7% 90%, rgba(255, 244, 183, 0.95) 0 0.22rem, transparent 0.24rem),
+    radial-gradient(circle at 93% 90%, rgba(255, 244, 183, 0.95) 0 0.22rem, transparent 0.24rem),
+    linear-gradient(135deg, #5a3004 0%, #bd7b13 9%, #f7d86f 17%, #8a5207 25%, #e6aa2d 36%, #fff0a0 43%, #6d3b05 52%, #d8941d 64%, #ffe58b 74%, #8e5608 84%, #d69a27 92%, #4a2703 100%);
+  box-shadow:
+    inset 0 0 0 3px #4a2703,
+    inset 0 0 0 6px rgba(255, 232, 139, 0.72),
+    inset 0 0 1.4rem rgba(48, 23, 0, 0.92),
+    0 1.15rem 2.8rem rgba(0, 0, 0, 0.48);
+}
+
+.baroque-elminster-frame::before {
+  content: "";
+  position: absolute;
+  inset: 0.38rem;
+  z-index: 1;
+  pointer-events: none;
+  border: 3px double #f9df7e;
+  border-radius: 0.88rem;
+  box-shadow:
+    inset 0 0 0 2px rgba(83, 44, 3, 0.92),
+    0 0 0 1px rgba(255, 240, 166, 0.32);
+}
+
+.baroque-elminster-frame::after {
+  content: "◆";
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  top: 0.1rem;
+  transform: translate(-50%, -50%) rotate(45deg);
+  color: #f8da6e;
+  font-size: clamp(1rem, 2vw, 1.4rem);
+  line-height: 1;
+  text-shadow: 0 1px 0 #4c2903, 0 0 0.55rem rgba(255, 217, 105, 0.55);
+  pointer-events: none;
+}
+
+.baroque-elminster-inner {
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+  border: clamp(0.22rem, 0.55vw, 0.38rem) solid #3f2304;
+  border-radius: 0.45rem;
+  background: #120d08;
+  box-shadow:
+    0 0 0 2px #e7b84d,
+    0 0 0 4px #6e3d05,
+    inset 0 0 1.1rem rgba(0, 0, 0, 0.68);
+}
+
+.baroque-elminster-corner {
+  position: absolute;
+  z-index: 4;
+  width: clamp(2.2rem, 5vw, 3.9rem);
+  aspect-ratio: 1;
+  pointer-events: none;
+  opacity: 0.98;
+}
+
+.baroque-elminster-corner::before,
+.baroque-elminster-corner::after {
+  content: "";
+  position: absolute;
+  inset: 0.18rem;
+  border: 0.2rem double #f7dc79;
+  border-radius: 72% 18% 62% 22%;
+  box-shadow: inset 0 0 0 1px #6e3c04, 0 0 0 1px rgba(72, 36, 2, 0.9);
+}
+
+.baroque-elminster-corner::after {
+  inset: 0.72rem;
+  border-width: 0.14rem;
+  transform: rotate(28deg);
+  border-radius: 62% 30% 70% 24%;
+}
+
+.baroque-elminster-corner-tl { left: -0.42rem; top: -0.42rem; }
+.baroque-elminster-corner-tr { right: -0.42rem; top: -0.42rem; transform: rotate(90deg); }
+.baroque-elminster-corner-br { right: -0.42rem; bottom: -0.42rem; transform: rotate(180deg); }
+.baroque-elminster-corner-bl { left: -0.42rem; bottom: -0.42rem; transform: rotate(270deg); }
+
 .mistinarperadnacles-flight {
   position: fixed;
   z-index: 120;
