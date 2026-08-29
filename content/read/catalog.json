@@ -68,5 +68,15 @@
     "publishedAt": "2026-08-21",
     "contentFile": "1.6.html",
     "wordCount": 3481
+  },
+  {
+    "id": "1.7",
+    "canonicalId": "1.07",
+    "title": "Exhausted by Usefulness",
+    "book": 1,
+    "unit": 7,
+    "publishedAt": "2026-08-28",
+    "contentFile": "1.7.html",
+    "wordCount": 3055
   }
 ]
