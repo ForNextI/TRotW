@@ -10,6 +10,7 @@
     "validate:release": "node --no-warnings --experimental-strip-types scripts/validate-version.mts && node --no-warnings --experimental-strip-types scripts/validate-trotw.mts"
   },
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "@vercel/blob": "^2.8.0",
     "@xmldom/xmldom": "^0.8.13",
     "jszip": "^3.10.1",

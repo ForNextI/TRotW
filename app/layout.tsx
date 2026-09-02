@@ -3,6 +3,7 @@ import { MotionPreferenceProvider } from '@/components/accessibility/motion-pref
 import { OwnerAccessBanner } from '@/components/owner/owner-access-banner'
 import { ImageCopyDeterrent } from '@/components/security/image-copy-deterrent'
 import './globals.css'
+import { Analytics } from '@vercel/analytics/next'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://thereadingofthewardens.com'),
@@ -29,6 +30,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en" className="bg-background">
       <body className="font-sans antialiased">
+        <Analytics />
         <MotionPreferenceProvider>
           <a href="#main-content" className="wardens-skip-link">Skip to main content</a>
           {children}
